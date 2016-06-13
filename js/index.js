@@ -82,18 +82,20 @@ function dblclick(){
 }
     
 function click() {
-//   Not working
-//    d3.select(this).attr("r",20);
-//    if(currentNode!=null){
-//        console.log(currentNode.attr("r"));
-//        if( currentNode.attr("r")!=12){
-//            currentNode.attr("r",12);  
-//        }else{
-//            currentNode.attr("r",29);
-//        }
-//    }
+    if(currentNode==null) currentNode=d3.select(this);
+    if(d3.select(this).attr("selected")==1){
+        d3.select(this).attr("selected",0);
+        d3.select(this).attr("r",12);
+    }else{
+        d3.select(this).attr("selected",1);
+        d3.select(this).attr("r",20);
+    }
+    if(currentNode!=null && d3.select(this).attr("index")!=currentNode.attr("index") ){
+        console.log("index diferente, deveria ficar pequeno");
+        currentNode.attr("selected",0);
+        currentNode.attr("r",12);
+    }
     currentNode = d3.select(this);
-    
     color = d3.rgb(currentNode.style("fill")).toString();
     switch(color){
         case "#cccccc":  
