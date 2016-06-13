@@ -91,12 +91,12 @@ function click() {
         d3.select(this).attr("r",20);
     }
     if(currentNode!=null && d3.select(this).attr("index")!=currentNode.attr("index") ){
-        console.log("index diferente, deveria ficar pequeno");
         currentNode.attr("selected",0);
         currentNode.attr("r",12);
     }
     currentNode = d3.select(this);
-    color = d3.rgb(currentNode.style("fill")).toString();
+    console.log(currentNode.attr("selected"));
+     color = d3.rgb(currentNode.style("fill")).toString();
     switch(color){
         case "#cccccc":  
             document.getElementById("color").selectedIndex = 3;
@@ -114,13 +114,37 @@ function click() {
             document.getElementById("color").selectedIndex = 0;
         break;
     }
-    document.getElementById("settings").style.visibility = "visible";
+    if(currentNode.attr("selected")==1){
+        document.getElementById("settings").style.visibility = "visible";   
+    }else{
+        document.getElementById("settings").style.visibility = "hidden"; 
+    }
+    
 }
 function linkClick(){
-    document.getElementById("settings").style.visibility = "visible";
+    if(currentLink==null) currentLink=d3.select(this);
+    if(d3.select(this).attr("selected")==1){
+        d3.select(this).attr("selected",0);
+        d3.select(this).style("stroke","#000");
+    }else{
+        d3.select(this).attr("selected",1);
+        d3.select(this).style("stroke","red");
+    }
+    if(currentLink != null){
+        if(d3.select(this).attr("x1")!=currentLink.attr("x1") || d3.select(this).attr("y1")!= currentLink.attr("y1")
+        || d3.select(this).attr("x2")!=currentLink.attr("x2") || d3.select(this).attr("y2")!= currentLink.attr("y2") ){
+            currentLink.attr("selected",0);
+            currentLink.style("stroke","#000");
+        }   
+    }
     currentLink = d3.select(this);
+    if(currentLink.attr("selected")==1){
+        document.getElementById("settings").style.visibility = "visible";
+    }else{
+        document.getElementById("settings").style.visibility = "hidden";
+    }
+    
     size= currentLink.style("stroke-width");
-    console.log(size);
     switch(size){
         case "1.5px":  
             document.getElementById("size").selectedIndex = 0;
@@ -138,9 +162,14 @@ function linkClick(){
 }
 
 function changeColor(){
-    if(currentNode != null) currentNode.style("fill",document.getElementById("color").value);
+    if(currentNode.attr("selected")==1){
+        if(currentNode != null) currentNode.style("fill",document.getElementById("color").value);
+    }
 }
 
 function changeSize(){
-    if(currentLink!=null) currentLink.style("stroke-width", document.getElementById("size").value);
+    if(currentLink.attr("selected")==1){
+        if(currentLink!=null) currentLink.style("stroke-width", document.getElementById("size").value);  
+    }
+    
 }
