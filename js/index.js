@@ -40,6 +40,7 @@ function loadGraph(name){
       .attr("r", 12)
       .attr("index", function(){index++;return index-1;})
       .call(drag)
+      .on("dblclick",dblclick)
       .on("click",click);
 });
     setTimeout(function() {
@@ -74,13 +75,15 @@ function tick() {
 }
 
 
-function click(){
+function dblclick(){
     load();
     loadGraph("node"+d3.select(this).attr("index"));
     svg.selectAll("*").remove();
     loadGraph("node"+d3.select(this).attr("index"));
 }
     
-
+function click() {
+    document.getElementById("settings").style.visibility = "visible";
+}
 
 
