@@ -39,3 +39,8 @@ body {
 	outline: none;
 }
 
+#settings img {
+	padding-top: 4px;
+	margin-right: 50px;
+	float: right;
+}
