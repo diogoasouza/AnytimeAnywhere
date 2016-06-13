@@ -2,7 +2,8 @@
     
 var width = window.innerWidth,
     height = window.innerHeight;
-
+var currentNode = null;
+var currentLink = null;
 var index=0;
 var name="graph";
 var force = d3.layout.force()
@@ -11,14 +12,12 @@ var force = d3.layout.force()
     .linkDistance(40)
     .on("tick",tick);
     
-var drag = force.drag();
-    
+var drag = force.drag();   
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 var loading;
 load(); 
-console.log(loading);
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
     
@@ -33,7 +32,8 @@ function loadGraph(name){
        
   link = link.data(graph.links)
     .enter().append("line")
-      .attr("class", "link");
+      .attr("class", "link")
+    .on("click",linkClick);
   node = node.data(graph.nodes)
     .enter().append("circle")
       .attr("class", "node")
@@ -45,7 +45,6 @@ function loadGraph(name){
 });
     setTimeout(function() {
   force.start();
-        console.log(force.nodes());
   for (var i = force.nodes().length * force.nodes().length; i > 0; --i) force.tick();
   force.stop();
       for (i=0;i<force.nodes().length;i++) {
@@ -83,7 +82,63 @@ function dblclick(){
 }
     
 function click() {
+//   Not working
+//    d3.select(this).attr("r",20);
+//    if(currentNode!=null){
+//        console.log(currentNode.attr("r"));
+//        if( currentNode.attr("r")!=12){
+//            currentNode.attr("r",12);  
+//        }else{
+//            currentNode.attr("r",29);
+//        }
+//    }
+    currentNode = d3.select(this);
+    
+    color = d3.rgb(currentNode.style("fill")).toString();
+    switch(color){
+        case "#cccccc":  
+            document.getElementById("color").selectedIndex = 3;
+        break;
+        case "#ff0000":  
+            document.getElementById("color").selectedIndex = 0;
+        break;
+        case "#0000ff":  
+            document.getElementById("color").selectedIndex = 1;
+        break;
+        case "#ffff00":  
+            document.getElementById("color").selectedIndex = 2;
+        break;
+        default:
+            document.getElementById("color").selectedIndex = 0;
+        break;
+    }
     document.getElementById("settings").style.visibility = "visible";
 }
+function linkClick(){
+    document.getElementById("settings").style.visibility = "visible";
+    currentLink = d3.select(this);
+    size= currentLink.style("stroke-width");
+    console.log(size);
+    switch(size){
+        case "1.5px":  
+            document.getElementById("size").selectedIndex = 0;
+        break;
+        case "3px":  
+            document.getElementById("size").selectedIndex = 1;
+        break;
+        case "4.5px":  
+            document.getElementById("size").selectedIndex = 2;
+        break;
+        case "6px":  
+            document.getElementById("size").selectedIndex = 3;
+        break;
+    }
+}
 
+function changeColor(){
+    if(currentNode != null) currentNode.style("fill",document.getElementById("color").value);
+}
 
+function changeSize(){
+    if(currentLink!=null) currentLink.style("stroke-width", document.getElementById("size").value);
+}
