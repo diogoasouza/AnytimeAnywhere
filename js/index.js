@@ -6,6 +6,7 @@ var currentNode = null;
 var currentLink = null;
 var index=0;
 var name="graph";
+var currentLevel = 0;
 var force = d3.layout.force()
     .size([width, height])
     .charge(-300)
@@ -20,7 +21,7 @@ var loading;
 load(); 
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
-    
+var levels = {level0: name};
 
 function loadGraph(name){
    d3.json("js/json/"+name+".json", function(error, graph) {
@@ -76,9 +77,12 @@ function tick() {
 
 function dblclick(){
     load();
-    loadGraph("node"+d3.select(this).attr("index"));
-    svg.selectAll("*").remove();
-    loadGraph("node"+d3.select(this).attr("index"));
+  
+    // increment to know actual level
+    currentLevel++;
+
+    levels[ ( "level" + currentLevel ) ] = ( "node"+d3.select(this).attr( "index" ) );
+    changeLevel(currentLevel);
 }
     
 function click() {
@@ -161,15 +165,42 @@ function linkClick(){
     }
 }
 
-function changeColor(){
-    if(currentNode.attr("selected")==1){
+function changeColor() {
+    if(currentNode.attr("selected")==1) {
         if(currentNode != null) currentNode.style("fill",document.getElementById("color").value);
     }
 }
 
-function changeSize(){
-    if(currentLink.attr("selected")==1){
+function changeSize() {
+    if(currentLink.attr("selected")==1) {
         if(currentLink!=null) currentLink.style("stroke-width", document.getElementById("size").value);  
-    }
-    
+    }   
+}
+
+
+function changeLevel(n) {
+    currentLevel = n;
+
+    console.log("Curret level: " + currentLevel);
+
+    enableLevel(currentLevel);
+
+    loadGraph(levels[ ( "level" + currentLevel ) ]);
+    svg.selectAll("*").remove();
+    loadGraph(levels[ ( "level" + currentLevel ) ]);
+
+    // active clicked level
+    document.getElementById( 'l' + currentLevel ).setAttribute( 'class', 'active' );
+}
+
+// function to enable navbar button for previous levals
+function enableLevel(leval) {
+  document.getElementById("levels").innerHTML = " ";
+  for (i = 0; i < currentLevel; i++) {
+      document.getElementById("levels").innerHTML += "<li id='l" + i + "' onclick='changeLevel(" + 
+                                                      i + ");'><a href='#'>Level " + i + "</a></li>";
+  }
+  document.getElementById("levels").innerHTML += "<li class='active' id='l" + 
+                                                  leval + "' onclick='changeLevel(" + leval + 
+                                                  ");'><a href='#'>Level " + leval + "</a></li>";
 }
