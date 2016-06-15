@@ -7,9 +7,14 @@ var currentLink = null;
 var index=0;
 var name="graph";
 var currentLevel = 0;
-var force = null;
+var force = force = d3.layout.force()
+    .size([width, height])
+    .charge(-300)
+    .linkDistance(40)
+    .on("tick",tick);
     
-var drag = null;   
+    
+var drag =force.drag();   
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -20,13 +25,6 @@ var link = svg.selectAll(".link"),
 var levels = {level0: name};
 
 function loadGraph(name){
-    
-    force = d3.layout.force()
-    .size([width, height])
-    .charge(-300)
-    .linkDistance(40)
-    .on("tick",tick);
-    drag =force.drag();
     link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
    d3.json("js/json/"+name+".json", function(error, graph) {
@@ -35,7 +33,6 @@ function loadGraph(name){
       .nodes(graph.nodes)
       .links(graph.links)
       .start();
-       console.log(link);
   link = link.data(graph.links)
     .enter().append("line")
       .attr("class", "link")
@@ -48,11 +45,6 @@ function loadGraph(name){
       .call(drag)
       .on("dblclick",dblclick)
       .on("click",click);
-       console.log("loadgraph");
-       console.log(graph);
-    console.log(force);
-    console.log(link);
-    console.log(node);
 });
     
     setTimeout(function() {
