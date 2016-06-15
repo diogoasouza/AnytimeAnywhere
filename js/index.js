@@ -45,6 +45,7 @@ function loadGraph(name){
       .call(drag)
       .on("dblclick",dblclick)
       .on("click",click);
+       index=0;
 });
     
     setTimeout(function() {
@@ -83,12 +84,13 @@ function dblclick(){
   
     // increment to know actual level
     currentLevel++;
-
     levels[ ( "level" + currentLevel ) ] = ( "node"+d3.select(this).attr( "index" ) );
+    console.log(levels);
     changeLevel(currentLevel);
 }
     
 function click() {
+    console.log(( "node"+d3.select(this).attr( "index" ) ));
     if(currentNode==null) currentNode=d3.select(this);
     if(d3.select(this).attr("selected")==1){
         d3.select(this).attr("selected",0);
