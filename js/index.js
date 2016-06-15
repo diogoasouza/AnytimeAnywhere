@@ -7,13 +7,9 @@ var currentLink = null;
 var index=0;
 var name="graph";
 var currentLevel = 0;
-var force = d3.layout.force()
-    .size([width, height])
-    .charge(-300)
-    .linkDistance(40)
-    .on("tick",tick);
+var force = null;
     
-var drag = force.drag();   
+var drag = null;   
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -24,13 +20,22 @@ var link = svg.selectAll(".link"),
 var levels = {level0: name};
 
 function loadGraph(name){
+    
+    force = d3.layout.force()
+    .size([width, height])
+    .charge(-300)
+    .linkDistance(40)
+    .on("tick",tick);
+    drag =force.drag();
+    link = svg.selectAll(".link"),
+    node = svg.selectAll(".node");
    d3.json("js/json/"+name+".json", function(error, graph) {
   if (error) throw error;
   force
       .nodes(graph.nodes)
       .links(graph.links)
       .start();
-       
+       console.log(link);
   link = link.data(graph.links)
     .enter().append("line")
       .attr("class", "link")
@@ -43,7 +48,13 @@ function loadGraph(name){
       .call(drag)
       .on("dblclick",dblclick)
       .on("click",click);
+       console.log("loadgraph");
+       console.log(graph);
+    console.log(force);
+    console.log(link);
+    console.log(node);
 });
+    
     setTimeout(function() {
   force.start();
   for (var i = force.nodes().length * force.nodes().length; i > 0; --i) force.tick();
@@ -99,7 +110,6 @@ function click() {
         currentNode.attr("r",12);
     }
     currentNode = d3.select(this);
-    console.log(currentNode.attr("selected"));
      color = d3.rgb(currentNode.style("fill")).toString();
     switch(color){
         case "#cccccc":  
@@ -180,15 +190,9 @@ function changeSize() {
 
 function changeLevel(n) {
     currentLevel = n;
-
-    console.log("Curret level: " + currentLevel);
-
     enableLevel(currentLevel);
-
-    loadGraph(levels[ ( "level" + currentLevel ) ]);
     svg.selectAll("*").remove();
     loadGraph(levels[ ( "level" + currentLevel ) ]);
-
     // active clicked level
     document.getElementById( 'l' + currentLevel ).setAttribute( 'class', 'active' );
 }
