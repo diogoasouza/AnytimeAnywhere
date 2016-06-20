@@ -24,7 +24,13 @@ var tip = d3.tip()
 var drag =force.drag();   
 var svg = d3.select("body").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .call(d3.behavior.zoom().on("zoom", redraw))
+    .append('g');
+  var drag = force.stop().drag()
+.on("dragstart", function(d) {
+    d3.event.sourceEvent.stopPropagation();
+    });  
 var loading;
 load(); 
 var link = svg.selectAll(".link"),
@@ -100,7 +106,6 @@ function dblclick(){
 }
     
 function click() {
-    console.log(( "node"+d3.select(this).attr( "index" ) ));
     if(currentNode==null) currentNode=d3.select(this);
     if(d3.select(this).attr("selected")==1){
         d3.select(this).attr("selected",0);
@@ -192,16 +197,13 @@ function changeSize() {
 }
 
 function createInterval(){
-    console.log("oi");
     clearInterval(update);
     timer=document.getElementById("timer").value;
     update=setInterval(updateData, timer*1000);
 }
 function updateData(){
-    console.log("oi");
     svg.selectAll("*").remove();
-    loadGraph("node2");
-    console.log("tchau");
+    loadGraph(name);
 }
 function changeLevel(n) {
     currentLevel = n;
@@ -223,4 +225,9 @@ function enableLevel(leval) {
                                                   leval + "' onclick='changeLevel(" + leval + 
                                                   ");'><a href='#'>Level " + leval + "</a></li>";
 }
-
+function redraw() {
+      svg.attr("transform",
+          "translate(" + d3.event.translate + ")"
+          + " scale(" + d3.event.scale + ")");
+   
+    }
