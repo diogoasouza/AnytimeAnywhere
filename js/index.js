@@ -14,7 +14,13 @@ var force = force = d3.layout.force()
     .linkDistance(40)
     .on("tick",tick);
     
-    
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>ID:</strong> <span style='color:red'>" + d.index + "</span>";
+  })
+
 var drag =force.drag();   
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -24,7 +30,7 @@ load();
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
 var levels = {level0: name};
-
+svg.call(tip);
 function loadGraph(name){
     link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
@@ -45,7 +51,9 @@ function loadGraph(name){
       .attr("index", function(){index++;return index-1;})
       .call(drag)
       .on("dblclick",dblclick)
-      .on("click",click);
+      .on("click",click)
+      .on("mouseover",tip.show)
+      .on("mouseout",tip.hide);
        index=0;
 });
     
@@ -215,3 +223,4 @@ function enableLevel(leval) {
                                                   leval + "' onclick='changeLevel(" + leval + 
                                                   ");'><a href='#'>Level " + leval + "</a></li>";
 }
+
