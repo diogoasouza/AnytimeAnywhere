@@ -5,6 +5,7 @@ var width = window.innerWidth,
 var currentNode = null;
 var currentLink = null;
 var index=0;
+var timer=10;
 var name="graph";
 var currentLevel = 0;
 var force = force = d3.layout.force()
@@ -60,6 +61,7 @@ function loadGraph(name){
 }, 10);
 }
 loadGraph(name);
+var update=setInterval(updateData, timer*1000);
 function load(){
     loading = svg.append("text")
     .attr("x", width / 2)
@@ -181,7 +183,18 @@ function changeSize() {
     }   
 }
 
-
+function createInterval(){
+    console.log("oi");
+    clearInterval(update);
+    timer=document.getElementById("timer").value;
+    update=setInterval(updateData, timer*1000);
+}
+function updateData(){
+    console.log("oi");
+    svg.selectAll("*").remove();
+    loadGraph("node2");
+    console.log("tchau");
+}
 function changeLevel(n) {
     currentLevel = n;
     enableLevel(currentLevel);
