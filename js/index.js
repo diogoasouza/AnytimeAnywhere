@@ -7,6 +7,7 @@ var currentLink = null;
 var index=0;
 var timer=10;
 var name="graph";
+var pastJson=null;
 var currentLevel = 0;
 var force = force = d3.layout.force()
     .size([width, height])
@@ -26,6 +27,7 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
     .call(d3.behavior.zoom().on("zoom", redraw))
+    .on("dblclick.zoom", null)
     .append('g');
   var drag = force.stop().drag()
 .on("dragstart", function(d) {
@@ -42,7 +44,14 @@ function loadGraph(name){
     node = svg.selectAll(".node");
    d3.json("js/json/"+name+".json", function(error, graph) {
   if (error) throw error;
-  force
+       if(pastJson!= JSON.stringify(graph)){
+           console.log(name);
+           console.log(pastJson);
+           console.log(JSON.stringify(graph));
+           svg.selectAll("*").remove();
+           console.log("removeu");
+           pastJson=JSON.stringify(graph);
+           force
       .nodes(graph.nodes)
       .links(graph.links)
       .start();
@@ -60,7 +69,10 @@ function loadGraph(name){
       .on("click",click)
       .on("mouseover",tip.show)
       .on("mouseout",tip.hide);
-       index=0;
+       index=0; 
+           
+       }
+  
 });
     
     setTimeout(function() {
@@ -206,12 +218,13 @@ function createInterval(){
     
 }
 function updateData(){
-    svg.selectAll("*").remove();
+    
     loadGraph(name);
 }
 function changeLevel(n) {
     currentLevel = n;
     enableLevel(currentLevel);
+    name = levels[ ( "level" + currentLevel ) ];
     svg.selectAll("*").remove();
     loadGraph(levels[ ( "level" + currentLevel ) ]);
     createInterval();
