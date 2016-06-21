@@ -100,7 +100,8 @@ function dblclick(){
   
     // increment to know actual level
     currentLevel++;
-    levels[ ( "level" + currentLevel ) ] = ( "node"+d3.select(this).attr( "index" ) );
+    name =  "node"+d3.select(this).attr( "index" );
+    levels[ ( "level" + currentLevel ) ] = name;
     console.log(levels);
     changeLevel(currentLevel);
 }
@@ -197,9 +198,12 @@ function changeSize() {
 }
 
 function createInterval(){
-    clearInterval(update);
-    timer=document.getElementById("timer").value;
-    update=setInterval(updateData, timer*1000);
+    if (document.getElementById("timer").value!=""){
+        clearInterval(update);
+       timer=document.getElementById("timer").value;
+    update=setInterval(updateData, timer*1000); 
+    }
+    
 }
 function updateData(){
     svg.selectAll("*").remove();
@@ -210,6 +214,7 @@ function changeLevel(n) {
     enableLevel(currentLevel);
     svg.selectAll("*").remove();
     loadGraph(levels[ ( "level" + currentLevel ) ]);
+    createInterval();
     // active clicked level
     document.getElementById( 'l' + currentLevel ).setAttribute( 'class', 'active' );
 }
