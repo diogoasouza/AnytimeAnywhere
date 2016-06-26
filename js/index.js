@@ -6,7 +6,8 @@ var currentNode = null;
 var currentLink = null;
 var index=0;
 var timer=10;
-var name="graph";
+var root_json="graph";
+var path_json ="js/json/";
 var pastJson=null;
 var currentLevel = 0;
 var force = force = d3.layout.force()
@@ -39,39 +40,48 @@ var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
 var levels = {level0: name};
 svg.call(tip);
-function loadGraph(name){
+function loadGraph(){
     link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
-   d3.json("js/json/"+name+".json", function(error, graph) {
-  if (error) throw error;
-       if(pastJson!= JSON.stringify(graph)){
-           console.log(name);
-           console.log(pastJson);
-           console.log(JSON.stringify(graph));
-           svg.selectAll("*").remove();
-           console.log("removeu");
-           pastJson=JSON.stringify(graph);
-           force
-      .nodes(graph.nodes)
-      .links(graph.links)
-      .start();
-  link = link.data(graph.links)
-    .enter().append("line")
-      .attr("class", "link")
-    .on("click",linkClick);
-  node = node.data(graph.nodes)
-    .enter().append("circle")
-      .attr("class", "node")
-      .attr("r", 12)
-      .attr("index", function(){index++;return index-1;})
-      .call(drag)
-      .on("dblclick",dblclick)
-      .on("click",click)
-      .on("mouseover",tip.show)
-      .on("mouseout",tip.hide);
-       index=0; 
+
+   	current_path = "";
+   	if (currentLevel != 0 )
+   	{
+	   	for (var i = 1; i <= currentLevel; i++) {
+	   		current_path += levels[ ( i ) ] + "/";
+	   		console.log("current_path: " + current_path);
+	   	}
+	}
+	d3.json(path_json + current_path + root_json + ".json", function(error, graph) {
+		if (error) throw error;
+	       if(pastJson!= JSON.stringify(graph)){
+	           //console.log(name);
+	           //console.log("pastJson" + pastJson);
+	           //console.log(JSON.stringify(graph));
+	           svg.selectAll("*").remove();
+	           //console.log("removeu");
+	           pastJson=JSON.stringify(graph);
+	           force
+	      .nodes(graph.nodes)
+	      .links(graph.links)
+	      .start();
+	  link = link.data(graph.links)
+	    .enter().append("line")
+	      .attr("class", "link")
+	    .on("click",linkClick);
+	  node = node.data(graph.nodes)
+	    .enter().append("circle")
+	      .attr("class", "node")
+	      .attr("r", 12)
+	      .attr("index", function(){index++;return index-1;})
+	      .call(drag)
+	      .on("dblclick",dblclick)
+	      .on("click",click)
+	      .on("mouseover",tip.show)
+	      .on("mouseout",tip.hide);
+	       index=0; 
            
-       }
+    }
   
 });
     
@@ -86,7 +96,7 @@ function loadGraph(name){
   loading.remove();
 }, 10);
 }
-loadGraph(name);
+loadGraph();
 var update=setInterval(updateData, timer*1000);
 function load(){
     loading = svg.append("text")
@@ -113,9 +123,10 @@ function dblclick(){
     // increment to know actual level
     currentLevel++;
     name =  "node"+d3.select(this).attr( "index" );
-    levels[ ( "level" + currentLevel ) ] = name;
+    levels[ ( currentLevel ) ] = name;
     console.log(levels);
     changeLevel(currentLevel);
+    console.log("currentLevel: " + currentLevel);
 }
     
 function click() {
@@ -219,14 +230,14 @@ function createInterval(){
 }
 function updateData(){
     
-    loadGraph(name);
+    loadGraph();
 }
 function changeLevel(n) {
     currentLevel = n;
     enableLevel(currentLevel);
-    name = levels[ ( "level" + currentLevel ) ];
+    name = levels[ ( currentLevel ) ];
     svg.selectAll("*").remove();
-    loadGraph(levels[ ( "level" + currentLevel ) ]);
+    loadGraph();
     createInterval();
     // active clicked level
     document.getElementById( 'l' + currentLevel ).setAttribute( 'class', 'active' );
