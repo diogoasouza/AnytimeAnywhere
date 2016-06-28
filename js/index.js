@@ -256,7 +256,11 @@ function enableLevel(leval) {
 }
 
 function redraw() {
+    svg.selectAll(".node").attr("r",12/d3.event.scale);
+    svg.selectAll(".node").style("stroke-width",1.5/d3.event.scale+"px");
+    svg.selectAll("line.link").style("stroke-width", 1.5/d3.event.scale+"px");
       svg.attr("transform",
           "translate(" + d3.event.translate + ")"
           + " scale(" + d3.event.scale + ")");
     }
+
