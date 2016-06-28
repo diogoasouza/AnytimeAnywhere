@@ -162,7 +162,7 @@ function click() {
         break;
     }
     if(currentNode.attr("selected")==1){
-        document.getElementById("settings").style.visibility = "visible";   
+        document.getElementById("settings").style.visibility = "visible"; 
     }else{
         document.getElementById("settings").style.visibility = "hidden"; 
     }

@@ -1,24 +1,24 @@
-/* GRAPH RESULTS */
+// set the dimensions of the canvas
 var margin = {top: 40, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-var formatPercent = d3.format(".0%");
 
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+// set the ranges
+var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
 
-var y = d3.scale.linear()
-    .range([height, 0]);
+var y = d3.scale.linear().range([height, 0]);
 
+// define the axis
 var xAxis = d3.svg.axis()
     .scale(x)
-    .orient("bottom");
+    .orient("bottom")
+
 
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
-    .tickFormat(formatPercent);
+    .ticks(10);
 
 var tip = d3.tip()
   .attr('class', 'd3-tip')
@@ -27,19 +27,30 @@ var tip = d3.tip()
     return "<strong>shortest path:</strong> <span style='color:red'>" + d.shortestpath + "</span>";
   })
 
+// add the SVG element
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .attr('class', 'graphic-bar')
   .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
 
 svg.call(tip);
 
-d3.tsv("../js/data.tsv", type, function(error, data) {
-  x.domain(data.map(function(d) { return d.letter; }));
+// load the data
+d3.json("js/json/data.json", function(error, data) {
+
+    data.forEach(function(d) {
+        d.Letter = d.Letter;
+        d.shortestpath = +d.shortestpath;
+    });
+	
+  // scale the range of the data
+  x.domain(data.map(function(d) { return d.Letter; }));
   y.domain([0, d3.max(data, function(d) { return d.shortestpath; })]);
 
+  // add axis
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
@@ -53,13 +64,15 @@ d3.tsv("../js/data.tsv", type, function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Shortest path");
+      .text("Shortestpath");
 
-  svg.selectAll(".bar")
+
+  // Add bar chart
+  svg.selectAll("bar")
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.letter); })
+      .attr("x", function(d) { return x(d.Letter); })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.shortestpath); })
       .attr("height", function(d) { return height - y(d.shortestpath); })
@@ -67,14 +80,3 @@ d3.tsv("../js/data.tsv", type, function(error, data) {
       .on('mouseout', tip.hide)
 
 });
-
-function type(d) {
-  d.shortestpath = +d.shortestpath;
-  return d;
-}
-
-
-
-
-
-

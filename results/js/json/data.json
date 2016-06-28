@@ -1,0 +1,102 @@
+[
+{
+	"Letter": "A",
+	"shortestpath": 20	
+},
+{
+	"Letter" : "B",
+	"shortestpath": 12
+},
+{
+	"Letter" : "C",
+	"shortestpath": 47
+},
+{
+	"Letter" : "D",
+	"shortestpath": 34
+},
+{
+	"Letter" : "E",
+	"shortestpath" : 54
+},
+{
+	"Letter" : "F",
+	"shortestpath" : 21
+},
+{
+	"Letter" : "G",
+	"shortestpath" : 57
+},
+{
+	"Letter" : "H",
+	"shortestpath" : 31
+},
+{
+	"Letter" : "I",
+	"shortestpath" : 17
+},
+{
+	"Letter" : "J",
+	"shortestpath" : 5
+},
+{
+	"Letter" : "K",
+	"shortestpath" : 23
+},
+{
+	"Letter" : "L",
+	"shortestpath" : 39
+},
+{
+	"Letter" : "M",
+	"shortestpath" : 29
+},
+{
+	"Letter" : "N",
+	"shortestpath" : 33
+},
+{
+	"Letter" : "O",
+	"shortestpath" : 18
+},
+{
+	"Letter" : "P",
+	"shortestpath" : 35
+},
+{
+	"Letter" : "Q",
+	"shortestpath" : 11
+},
+{
+	"Letter" : "R",
+	"shortestpath" : 45
+},
+{
+	"Letter" : "S",
+	"shortestpath" : 43
+},
+{
+	"Letter" : "T",
+	"shortestpath" : 28
+},
+{
+	"Letter" : "U",
+	"shortestpath" : 26
+},
+{
+	"Letter" : "V",
+	"shortestpath" : 30
+},
+{
+	"Letter" : "X",
+	"shortestpath" : 5
+},
+{
+	"Letter" : "Y",
+	"shortestpath" : 4
+},
+{
+	"Letter" : "Z",
+	"shortestpath" : 2
+}
+]

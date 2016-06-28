@@ -35,7 +35,6 @@ body {
 }
 
 .navbar-brand {
-	/*float: right;*/
 	padding: 0;
 }
 
@@ -142,5 +141,5 @@ body {
 
 
 .graphic-bar{
-	margin: 3% 200px;
+	margin: 3% 250px;
 }
