@@ -1,102 +1,102 @@
 [
 {
-	"Letter": "A",
+	"Letter": 16,
 	"shortestpath": 20	
 },
 {
-	"Letter" : "B",
+	"Letter" : 5,
 	"shortestpath": 12
 },
 {
-	"Letter" : "C",
+	"Letter" : 13,
 	"shortestpath": 47
 },
 {
-	"Letter" : "D",
+	"Letter" : 2,
 	"shortestpath": 34
 },
 {
-	"Letter" : "E",
+	"Letter" : 9,
 	"shortestpath" : 54
 },
 {
-	"Letter" : "F",
+	"Letter" : 23,
 	"shortestpath" : 21
 },
 {
-	"Letter" : "G",
+	"Letter" : 2,
 	"shortestpath" : 57
 },
 {
-	"Letter" : "H",
+	"Letter" : 22,
 	"shortestpath" : 31
 },
 {
-	"Letter" : "I",
+	"Letter" : 6,
 	"shortestpath" : 17
 },
 {
-	"Letter" : "J",
+	"Letter" : 2,
 	"shortestpath" : 5
 },
 {
-	"Letter" : "K",
+	"Letter" : 17,
 	"shortestpath" : 23
 },
 {
-	"Letter" : "L",
+	"Letter" : 29,
 	"shortestpath" : 39
 },
 {
-	"Letter" : "M",
+	"Letter" : 17,
 	"shortestpath" : 29
 },
 {
-	"Letter" : "N",
+	"Letter" : 12,
 	"shortestpath" : 33
 },
 {
-	"Letter" : "O",
+	"Letter" : 8,
 	"shortestpath" : 18
 },
 {
-	"Letter" : "P",
+	"Letter" : 27,
 	"shortestpath" : 35
 },
 {
-	"Letter" : "Q",
+	"Letter" : 11,
 	"shortestpath" : 11
 },
 {
-	"Letter" : "R",
+	"Letter" : 39,
 	"shortestpath" : 45
 },
 {
-	"Letter" : "S",
+	"Letter" : 31,
 	"shortestpath" : 43
 },
 {
-	"Letter" : "T",
+	"Letter" : 11,
 	"shortestpath" : 28
 },
 {
-	"Letter" : "U",
+	"Letter" : 17,
 	"shortestpath" : 26
 },
 {
-	"Letter" : "V",
+	"Letter" : 21,
 	"shortestpath" : 30
 },
 {
-	"Letter" : "X",
+	"Letter" : 3,
 	"shortestpath" : 5
 },
 {
-	"Letter" : "Y",
+	"Letter" : 3,
 	"shortestpath" : 4
 },
 {
-	"Letter" : "Z",
+	"Letter" : 1,
 	"shortestpath" : 2
 }
 ]

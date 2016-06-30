@@ -132,18 +132,22 @@ function dblclick(){
 function click() {
     if(currentNode==null) currentNode=d3.select(this);
     if(d3.select(this).attr("selected")==1){
-        d3.select(this).attr("selected",0);
-        d3.select(this).attr("r",12);
+        currentNode.style("fill", "#ccc");
+        d3.select(this).attr("selected",0);/*
+        d3.select(this).attr("r",12);*/
+        document.getElementById("settings").style.visibility = "hidden"; 
     }else{
-        d3.select(this).attr("selected",1);
-        d3.select(this).attr("r",20);
+        currentNode.style("fill", "black");
+        d3.select(this).attr("selected",1);/*
+        d3.select(this).attr("r",20);*/
+        document.getElementById("settings").style.visibility = "visible"; 
     }
     if(currentNode!=null && d3.select(this).attr("index")!=currentNode.attr("index") ){
         currentNode.attr("selected",0);
         currentNode.attr("r",12);
     }
     currentNode = d3.select(this);
-     color = d3.rgb(currentNode.style("fill")).toString();
+    color = d3.rgb(currentNode.style("fill")).toString();
     switch(color){
         case "#cccccc":  
             document.getElementById("color").selectedIndex = 3;
@@ -160,11 +164,6 @@ function click() {
         default:
             document.getElementById("color").selectedIndex = 0;
         break;
-    }
-    if(currentNode.attr("selected")==1){
-        document.getElementById("settings").style.visibility = "visible"; 
-    }else{
-        document.getElementById("settings").style.visibility = "hidden"; 
     }
     
 }

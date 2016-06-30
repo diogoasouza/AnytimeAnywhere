@@ -24,7 +24,7 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>shortest path:</strong> <span style='color:red'>" + d.shortestpath + "</span>";
+    return "<strong>Number of Nodes:</strong> <span style='color:red'>" + d.shortestpath + "</span>";
   })
 
 // add the SVG element
@@ -64,7 +64,7 @@ d3.json("js/json/data.json", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Shortestpath");
+      .text("Number of Nodes");
 
 
   // Add bar chart
