@@ -41,7 +41,7 @@ body {
 #settings {
 	margin: 0 auto;
 	width: 90%;
-	visibility: hidden;
+	/*visibility: hidden;*/
 	height: 50px;
 	padding-left: 15%;
 	margin-top: 70px;

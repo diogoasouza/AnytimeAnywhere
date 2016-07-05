@@ -67,16 +67,18 @@ function loadGraph(){
 	      .start();
 	  link = link.data(graph.links)
 	    .enter().append("line")
-	      .attr("class", "link")
-	    .on("click",linkClick);
+        //.on("click",linkClick)
+	      .attr("class", "link");
+	    
 	  node = node.data(graph.nodes)
 	    .enter().append("circle")
 	      .attr("class", "node")
 	      .attr("r", 12)
 	      .attr("index", function(){index++;return index-1;})
 	      .call(drag)
+          .style("fill", "red")
 	      .on("dblclick",dblclick)
-	      .on("click",click)
+	      //.on("click",click)
 	      .on("mouseover",tip.show)
 	      .on("mouseout",tip.hide);
 	       index=0; 
@@ -128,7 +130,8 @@ function dblclick(){
     changeLevel(currentLevel);
     console.log("currentLevel: " + currentLevel);
 }
-    
+   
+/*
 function click() {
     if(currentNode==null) {
         currentNode=d3.select(this);
@@ -148,7 +151,6 @@ function click() {
     }else{
         d3.select(this).style("fill", "black");
         d3.select(this).attr("selected",1);
-        /*d3.select(this).attr("r",20);*/
         document.getElementById("settings").style.visibility = "visible"; 
     }
     if(currentNode!=null && d3.select(this).attr("index")!=currentNode.attr("index") ){
@@ -176,7 +178,7 @@ function click() {
         break;
     }
     
-}
+}*/
 function linkClick(){
     if(currentLink==null) currentLink=d3.select(this);
     if(d3.select(this).attr("selected")==1){
@@ -218,15 +220,20 @@ function linkClick(){
 }
 
 function changeColor() {
-    if(currentNode.attr("selected")==1) {
-        if(currentNode != null) currentNode.style("fill",document.getElementById("color").value);
-    }
+    node = node.style("fill", (document.getElementById("color").value));
+    /*if(currentNode.attr("selected")==1) {
+        if(currentNode != null) {
+            currentNode.style("fill",document.getElementById("color").value);
+            
+        }
+    }*/
 }
 
 function changeSize() {
-    if(currentLink.attr("selected")==1) {
+    link = link.style("stroke-width", document.getElementById("size").value);
+    /*if(currentLink.attr("selected")==1) {
         if(currentLink!=null) currentLink.style("stroke-width", document.getElementById("size").value);  
-    }   
+    }   */
 }
 
 function createInterval(){
