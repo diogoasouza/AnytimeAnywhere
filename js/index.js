@@ -10,6 +10,7 @@ var root_json="graph";
 var path_json ="js/json/";
 var pastJson=null;
 var currentLevel = 0;
+var nNodes = 0;
 var force = force = d3.layout.force()
     .size([width, height])
     .charge(-300)
@@ -20,9 +21,10 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>ID:</strong> <span style='color:red'>" + d.index + "</span>";
+    return "<strong>ID:</strong> <span style='color:red'>" + d.index + 
+            "</span><br/>Number of Nodes:<span style='color:red'id='" + d.index +"'> " + 
+            numberOfNodes(d.index)  + "</span>";
   })
-
 var drag =force.drag();   
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -55,11 +57,7 @@ function loadGraph(){
 	d3.json(path_json + current_path + root_json + ".json", function(error, graph) {
 		if (error) throw error;
 	       if(pastJson!= JSON.stringify(graph)){
-	           //console.log(name);
-	           //console.log("pastJson" + pastJson);
-	           //console.log(JSON.stringify(graph));
 	           svg.selectAll("*").remove();
-	           //console.log("removeu");
 	           pastJson=JSON.stringify(graph);
 	           force
 	      .nodes(graph.nodes)
@@ -67,7 +65,6 @@ function loadGraph(){
 	      .start();
 	  link = link.data(graph.links)
 	    .enter().append("line")
-        //.on("click",linkClick)
 	      .attr("class", "link");
 	    
 	  node = node.data(graph.nodes)
@@ -78,13 +75,12 @@ function loadGraph(){
 	      .call(drag)
           .style("fill", "red")
 	      .on("dblclick",dblclick)
-	      //.on("click",click)
 	      .on("mouseover",tip.show)
 	      .on("mouseout",tip.hide);
 	       index=0; 
            
     }
-  
+
 });
     
     setTimeout(function() {
@@ -130,55 +126,8 @@ function dblclick(){
     changeLevel(currentLevel);
     console.log("currentLevel: " + currentLevel);
 }
-   
-/*
-function click() {
-    if(currentNode==null) {
-        currentNode=d3.select(this);
-    }
-    if( (d3.rgb(currentNode.style("fill")).toString()) == "#000000") {
-        color = "#ccc";
-    }
-    else {
-        color = d3.rgb(currentNode.style("fill")).toString();
-    }
-    if(d3.select(this).attr("selected")==1){
-        d3.select(this).style("fill", color);
-        d3.select(this).attr("selected",0);
-        console.log("Ja esta selecionado!");
-        //d3.select(this).attr("r",12);
-        document.getElementById("settings").style.visibility = "hidden"; 
-    }else{
-        d3.select(this).style("fill", "black");
-        d3.select(this).attr("selected",1);
-        document.getElementById("settings").style.visibility = "visible"; 
-    }
-    if(currentNode!=null && d3.select(this).attr("index")!=currentNode.attr("index") ){
-        currentNode.attr("selected",0);
-        //currentNode.attr("r",12);
-        currentNode.style("fill", color);
-    }
-    currentNode = d3.select(this);
-    //color = d3.rgb(currentNode.style("fill")).toString();
-    switch(color){
-        case "#cccccc":  
-            document.getElementById("color").selectedIndex = 3;
-        break;
-        case "#ff0000":  
-            document.getElementById("color").selectedIndex = 0;
-        break;
-        case "#0000ff":  
-            document.getElementById("color").selectedIndex = 1;
-        break;
-        case "#ffff00":  
-            document.getElementById("color").selectedIndex = 2;
-        break;
-        default:
-            document.getElementById("color").selectedIndex = 3;
-        break;
-    }
-    
-}*/
+
+
 function linkClick(){
     if(currentLink==null) currentLink=d3.select(this);
     if(d3.select(this).attr("selected")==1){
@@ -221,19 +170,10 @@ function linkClick(){
 
 function changeColor() {
     node = node.style("fill", (document.getElementById("color").value));
-    /*if(currentNode.attr("selected")==1) {
-        if(currentNode != null) {
-            currentNode.style("fill",document.getElementById("color").value);
-            
-        }
-    }*/
 }
 
 function changeSize() {
     link = link.style("stroke-width", document.getElementById("size").value);
-    /*if(currentLink.attr("selected")==1) {
-        if(currentLink!=null) currentLink.style("stroke-width", document.getElementById("size").value);  
-    }   */
 }
 
 function createInterval(){
@@ -278,5 +218,25 @@ function redraw() {
       svg.attr("transform",
           "translate(" + d3.event.translate + ")"
           + " scale(" + d3.event.scale + ")");
-    }
+}
+
+function numberOfNodes(node_over) {
+    var node_over_path = "node" + node_over + "/";
+
+    d3.json(path_json + current_path + node_over_path + root_json + ".json", function(error, graph) {           
+        if (error) {
+            console.log("Inside Error");
+            nNodes = 0;
+            document.getElementById(node_over).innerHTML = " " + nNodes;
+        }
+           
+        else {
+            nNodes = graph.nodes.length;
+            console.log("Inside Sucess " + nNodes + "Node over: " + node_over);
+            document.getElementById(node_over).innerHTML = " " + nNodes;
+        }
+    });
+        console.log("Number of nodes: " + nNodes);
+        return nNodes;
+}
 
