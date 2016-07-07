@@ -121,7 +121,7 @@ function dblclick(){
     load();
     // increment to know actual level
     currentLevel++;
-    name =  "node"+d3.select(this).attr( "id" );
+    name =  d3.select(this).attr( "id" );
     levels[ ( currentLevel ) ] = name;
     console.log(levels);
     changeLevel(currentLevel);
