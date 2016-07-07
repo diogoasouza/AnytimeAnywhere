@@ -239,7 +239,6 @@ function abc(){
                 svg.select("#node"+d.index).attr("r", nNodes+12);
                 svg.select("#node"+d.index).attr("originalSize", nNodes+12);
         
-            svg.select("#node"+d.index).attr("originalSize", 12);
         }
     });   
     });
