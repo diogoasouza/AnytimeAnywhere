@@ -1,10 +1,9 @@
-
-    
 var width = window.innerWidth,
     height = window.innerHeight;
 var currentNode = null;
 var currentLink = null;
 var index=0;
+var aux=0;
 var timer=10;
 var root_json="graph";
 var path_json ="js/json/";
@@ -23,7 +22,7 @@ var tip = d3.tip()
   .html(function(d) {
     return "<strong>ID:</strong> <span style='color:red'>" + d.index + 
             "</span><br/>Number of Nodes:<span style='color:red'id='" + d.index +"'> " + 
-            numberOfNodes(d.index)  + "</span>";
+            svg.select("#node"+d.index).attr("numberOfNodes")+ "</span>";
   })
 var drag =force.drag();   
 var svg = d3.select("body").append("svg")
@@ -71,14 +70,14 @@ function loadGraph(){
 	    .enter().append("circle")
 	      .attr("class", "node")
 	      .attr("r", 12)
-	      .attr("index", function(){index++;return index-1;})
+	      .attr("id", function(){index++;return "node"+(index-1);})
 	      .call(drag)
           .style("fill", "red")
 	      .on("dblclick",dblclick)
 	      .on("mouseover",tip.show)
 	      .on("mouseout",tip.hide);
 	       index=0; 
-           
+        abc();   
     }
 
 });
@@ -93,8 +92,10 @@ function loadGraph(){
 
   loading.remove();
 }, 10);
+    
 }
 loadGraph();
+
 var update=setInterval(updateData, timer*1000);
 function load(){
     loading = svg.append("text")
@@ -116,11 +117,11 @@ function tick() {
 
 
 function dblclick(){
+    console.log(this.numberOfNodes);
     load();
-  
     // increment to know actual level
     currentLevel++;
-    name =  "node"+d3.select(this).attr( "index" );
+    name =  "node"+d3.select(this).attr( "id" );
     levels[ ( currentLevel ) ] = name;
     console.log(levels);
     changeLevel(currentLevel);
@@ -185,7 +186,6 @@ function createInterval(){
     
 }
 function updateData(){
-    
     loadGraph();
 }
 function changeLevel(n) {
@@ -212,7 +212,7 @@ function enableLevel(leval) {
 }
 
 function redraw() {
-    svg.selectAll(".node").attr("r",12/d3.event.scale);
+    svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/d3.event.scale});
     svg.selectAll(".node").style("stroke-width",1.5/d3.event.scale+"px");
     svg.selectAll("line.link").style("stroke-width", 1.5/d3.event.scale+"px");
       svg.attr("transform",
@@ -220,23 +220,27 @@ function redraw() {
           + " scale(" + d3.event.scale + ")");
 }
 
-function numberOfNodes(node_over) {
-    var node_over_path = "node" + node_over + "/";
-
-    d3.json(path_json + current_path + node_over_path + root_json + ".json", function(error, graph) {           
+function abc(){
+    svg.selectAll(".node").attr("a", function(d){
+        var node_over_path = "node" + d.index + "/";
+        d3.json(path_json + current_path + node_over_path + root_json + ".json", function(error, graph) {           
         if (error) {
-            console.log("Inside Error");
             nNodes = 0;
-            document.getElementById(node_over).innerHTML = " " + nNodes;
+            svg.select("#node"+d.index).attr("originalSize", 12);
+            svg.select("#node"+d.index).attr("numberOfNodes", nNodes);
         }
            
         else {
+            console.log("entrou");
             nNodes = graph.nodes.length;
-            console.log("Inside Sucess " + nNodes + "Node over: " + node_over);
-            document.getElementById(node_over).innerHTML = " " + nNodes;
+            console.log(svg.select("#node"+d.index));
+            svg.select("#node"+d.index).attr("numberOfNodes", nNodes);
+            
+                svg.select("#node"+d.index).attr("r", nNodes+12);
+                svg.select("#node"+d.index).attr("originalSize", nNodes+12);
+        
+            svg.select("#node"+d.index).attr("originalSize", 12);
         }
+    });   
     });
-        console.log("Number of nodes: " + nNodes);
-        return nNodes;
 }
-
