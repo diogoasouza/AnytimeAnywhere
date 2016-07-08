@@ -3,6 +3,7 @@ var width = window.innerWidth,
 var currentNode = null;
 var currentLink = null;
 var index=0;
+var scale = 1;
 var aux=0;
 var timer=10;
 var root_json="graph";
@@ -212,9 +213,10 @@ function enableLevel(leval) {
 }
 
 function redraw() {
-    svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/d3.event.scale});
-    svg.selectAll(".node").style("stroke-width",1.5/d3.event.scale+"px");
-    svg.selectAll("line.link").style("stroke-width", 1.5/d3.event.scale+"px");
+    scale = d3.event.scale;
+    svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
+    svg.selectAll(".node").style("stroke-width",1.5/scale+"px");
+    svg.selectAll("line.link").style("stroke-width", 1.5/scale+"px");
       svg.attr("transform",
           "translate(" + d3.event.translate + ")"
           + " scale(" + d3.event.scale + ")");
@@ -242,4 +244,14 @@ function abc(){
         }
     });   
     });
+}
+
+function dynamicSize(){
+    console.log(document.getElementById('dynsize').value);
+    if (document.getElementById('dynsize').checked) 
+  {
+      svg.selectAll(".node").attr("r",12);
+  }else{console.log("oi");
+      svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
+  }
 }
