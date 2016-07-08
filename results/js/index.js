@@ -1,3 +1,6 @@
+timer =10;
+var update=setInterval(updateData, timer*1000);
+var pastJson=null;
 // set the dimensions of the canvas
 var margin = {top: 40, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
@@ -39,13 +42,17 @@ var svg = d3.select("body").append("svg")
 svg.call(tip);
 
 // load the data
-d3.json("js/json/data.json", function(error, data) {
-
-    data.forEach(function(d) {
+function loadData(){
+    
+    
+    d3.json("js/json/data.json", function(error, data) {
+        if(pastJson!= JSON.stringify(data)){
+        pastJson=JSON.stringify(data);
+        data.forEach(function(d) {
         d.Letter = d.Letter;
         d.shortestpath = +d.shortestpath;
     });
-	
+	console.log("eae eh nois");
   // scale the range of the data
   x.domain(data.map(function(d) { return d.Letter; }));
   y.domain([0, d3.max(data, function(d) { return d.shortestpath; })]);
@@ -78,5 +85,16 @@ d3.json("js/json/data.json", function(error, data) {
       .attr("height", function(d) { return height - y(d.shortestpath); })
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
-
-});
+        }
+});    
+    
+    
+}
+loadData();
+function createInterval(){
+    clearInterval(update);
+    update=setInterval(updateData, timer*1000);  
+}
+function updateData(){
+    loadData();
+}
