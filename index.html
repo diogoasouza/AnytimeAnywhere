@@ -4,50 +4,42 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script type="text/javascript">
+	function local() {
+		document.getElementById("url").style.visibility="hidden";
+		document.getElementById("local").style.visibility="visible";
+;
+	}
+
+	function remote() {
+		document.getElementById("url").style.visibility="visible";
+		document.getElementById("local").style.visibility="hidden";
+	}
+
+	</script>
 </head>
 <body>
 
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-brand">
-				<img src="img/logoAA.png">
-			</div>
+	LOGIN
 
-			<ul class="nav navbar-nav" id="levels">
-				<li class="active" id="l0" onclick="changeLevel(0);"><a href="#">Level 0</a></li>
-			</ul>
+	<form action="graph/index.html">
 
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="index.html">Graph</a></li>
-				<li><a href="results/index.html">Graph Results</a></li>
-			</ul>
-
-		</div>
-	</nav>
-
-	<div id="settings">
-		Color: 
-			<select id="color" onchange="changeColor()">
-				<option value="red">Red</option>
-				<option value="blue">Blue</option>
-				<option value="yellow">Yellow</option>
-                <option value="#ccc">Gray</option>
-			</select>
-		Edge: 
-			<select id="size" onchange="changeSize()">
-				<option value="1.5">x1</option>
-				<option value="3">x2</option>
-				<option value="4.5">x3</option>
-                <option value="6">x4</option>
-			</select>
-        No dynamic sizes:<input type="checkbox" id="dynsize" value="true" onclick="dynamicSize();"> 
-        Refresh timer: 
-        <input type="number"  id="timer"/>
-        <input type="button" onclick="createInterval()" value="OK">
-		<img src="img/logo.png">
+	<input type="radio" name="files" value="local" onclick="local();" checked > Local<br>
+	<div id="local">
+		<input type="file" webkitdirectory directory multiple/>
 	</div>
-	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="js/d3-tip.js" charset="utf-8"></script>
-	<script src="js/index.js" charset="utf-8"></script>
+  	<input type="radio" name="files" value="remote" onclick="remote();"> Remote<br>
+
+  	<div id="url">
+	  URL: <input type="text" name="fname"><br>
+	</div>
+
+	  <br/>
+	  <input type="submit" value="Go">
+	</form>
+
+
+
 </body>
 </html>

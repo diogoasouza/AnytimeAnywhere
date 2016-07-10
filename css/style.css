@@ -2,6 +2,10 @@ body {
 	font-family: 'Roboto','Helvetica','Arial',sans-serif;
 }
 
+#url {
+	visibility: hidden;
+}
+
 .link {
 	stroke: #000;
 	stroke-width: 1.5px;
