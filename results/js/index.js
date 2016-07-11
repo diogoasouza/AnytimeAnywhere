@@ -15,8 +15,7 @@ var y = d3.scale.linear().range([height, 0]);
 // define the axis
 var xAxis = d3.svg.axis()
     .scale(x)
-    .orient("bottom")
-
+    .orient("bottom");
 
 var yAxis = d3.svg.axis()
     .scale(y)
@@ -52,7 +51,6 @@ function loadData(){
         d.Letter = d.Letter;
         d.shortestpath = +d.shortestpath;
     });
-	console.log("eae eh nois");
   // scale the range of the data
   x.domain(data.map(function(d) { return d.Letter; }));
   y.domain([0, d3.max(data, function(d) { return d.shortestpath; })]);
@@ -61,12 +59,26 @@ function loadData(){
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+      .call(xAxis)
+
+      .append("text")
+      .attr("x", 900)
+      .attr("y", 30)
+      .attr("dx", ".71em")
+      .style("text-anchor", "end")
+      .text("Shortest Path");
+/*
+.attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width)
+    .attr("y", height - 6)
+    .text("income per capita, inflation-adjusted (dollars)");
+*/
 
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
-    .append("text")
+      .append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
       .attr("dy", ".71em")

@@ -1,58 +1,58 @@
 [
 {
-	"Letter": 3,
+	"Letter": "1-5",
 	"shortestpath": 4	
 },
 {
-	"Letter" : 5,
+	"Letter" : "5-10",
 	"shortestpath": 12
 },
 {
-	"Letter" : 9,
+	"Letter" : "11-15",
 	"shortestpath": 16
 },
 {
-	"Letter" : 22,
+	"Letter" : "16-20",
 	"shortestpath": 25
 },
 {
-	"Letter" : 12,
-	"shortestpath" : 21
+	"Letter" : "21-25",
+	"shortestpath" : 29
 },
 {
-	"Letter" : 23,
+	"Letter" : "26-30",
 	"shortestpath" : 39
 },
 {
-	"Letter" : 24,
+	"Letter" : "31-35",
 	"shortestpath" : 41
 },
 {
-	"Letter" : 27,
+	"Letter" : "36-40",
 	"shortestpath" : 44
 },
 {
-	"Letter" : 29,
+	"Letter" : "41-45",
 	"shortestpath" : 47
 },
 {
-	"Letter" : 31,
-	"shortestpath" : 50
-},
-{
-	"Letter" : 33,
-	"shortestpath" : 52
-},
-{
-	"Letter" : 34,
+	"Letter" : "46-50",
 	"shortestpath" : 48
 },
 {
-	"Letter" : 49,
+	"Letter" : "51-55",
+	"shortestpath" : 49
+},
+{
+	"Letter" : "56-60",
 	"shortestpath" : 50
 },
 {
-	"Letter" : 29,
-	"shortestpath" : 39
+	"Letter" : "61-65",
+	"shortestpath" : 51
+},
+{
+	"Letter" : "65-70",
+	"shortestpath" : 55
 }
 ]
