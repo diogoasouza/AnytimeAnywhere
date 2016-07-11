@@ -54,7 +54,8 @@ function loadGraph(){
 	   		console.log("current_path: " + current_path);
 	   	}
 	}
-	d3.json(path_json + current_path + root_json + ".json", function(error, graph) {
+  //https://people.rit.edu/uxc8532/JSon/graph.json
+	d3.json("https://people.rit.edu/uxc8532/" + path_json + current_path + root_json + ".json", function(error, graph) {
 		if (error) throw error;
 	       if(pastJson!= JSON.stringify(graph)){
 	           svg.selectAll("*").remove();
