@@ -6,11 +6,41 @@ var index=0;
 var scale = 1;
 var aux=0;
 var timer=10;
+var path=null;
 var root_json="graph";
 var path_json ="js/json/";
 var pastJson=null;
 var currentLevel = 0;
 var nNodes = 0;
+var QueryString = function () {
+  // This function is anonymous, is executed immediately and 
+  // the return value is assigned to QueryString!
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+        // If first entry with this name
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+        // If second entry with this name
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+      query_string[pair[0]] = arr;
+        // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  } 
+    console.log(query_string);
+  return query_string;
+}();
+if (QueryString.files=="remote"){
+    path = QueryString.remoteName;
+}else{
+    path = QueryString.localName;
+}
+console.log(path);
 var force = force = d3.layout.force()
     .size([width, height])
     .charge(-300)
@@ -45,7 +75,6 @@ svg.call(tip);
 function loadGraph(){
     link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
-
    	current_path = "";
    	if (currentLevel != 0 )
    	{
@@ -55,7 +84,7 @@ function loadGraph(){
 	   	}
 	}
   //https://people.rit.edu/uxc8532/JSon/graph.json
-	d3.json("https://people.rit.edu/uxc8532/" + path_json + current_path + root_json + ".json", function(error, graph) {
+	d3.json(path + path_json + current_path + root_json + ".json", function(error, graph) {
 		if (error) throw error;
 	       if(pastJson!= JSON.stringify(graph)){
 	           svg.selectAll("*").remove();
@@ -226,7 +255,7 @@ function redraw() {
 function abc(){
     svg.selectAll(".node").attr("a", function(d){
         var node_over_path = "node" + d.index + "/";
-        d3.json(path_json + current_path + node_over_path + root_json + ".json", function(error, graph) {           
+        d3.json(path + path_json + current_path + node_over_path + root_json + ".json", function(error, graph) {           
         if (error) {
             nNodes = 0;
             svg.select("#node"+d.index).attr("originalSize", 12);
