@@ -256,3 +256,17 @@ function dynamicSize(){
       svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
   }
 }
+
+function local() {
+  document.getElementById("url").style.visibility="hidden";
+  document.getElementById("local").style.visibility="visible";
+}
+
+function remote() {
+  document.getElementById("url").style.visibility="visible";
+  document.getElementById("local").style.visibility="hidden";
+}
+function goToGraph() {
+    console.log("Inside go to graph");
+    document.getElementsByClassName('modal-content').style.display = "none";
+}
