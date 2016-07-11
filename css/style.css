@@ -45,20 +45,13 @@ body {
     text-decoration: none;
     cursor: pointer;
 }
-/*
-#login {
-	position:fixed;
-    top: 50%;
-    left: 50%;
-    width:30em;
-    height:18em;
-    margin-top: -9em; 
-    margin-left: -15em; 
-    border: 1px solid #ccc;
-    background-color: #f3f3f3;
-    text-align: center;
+input[type="checkbox"], #maxSize {
+  margin-right: 40px;
+}
 
-}*/
+input[type="number"] {
+   width:50px;
+}
 
 .link {
 	stroke: #000;
@@ -99,7 +92,7 @@ body {
 #settings {
 	margin: 0 auto;
 	width: 90%;
-	/*visibility: hidden;*/
+	visibility: hidden;
 	height: 50px;
 	padding-left: 15%;
 	margin-top: 70px;
@@ -146,6 +139,9 @@ body {
 	background-color: #F8F8FF;
 }
 
+#menuRight, #levels {
+  pointer-events: none;
+}
 
 /* GRAPH RESULTS */
 

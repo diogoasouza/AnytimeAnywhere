@@ -149,12 +149,13 @@ function linkClick(){
         }   
     }
     currentLink = d3.select(this);
+    /*
     if(currentLink.attr("selected")==1){
         document.getElementById("settings").style.visibility = "visible";
     }else{
         document.getElementById("settings").style.visibility = "hidden";
     }
-    
+    */
     size= currentLink.style("stroke-width");
     switch(size){
         case "1.5px":  
@@ -247,11 +248,17 @@ function abc(){
 }
 
 function dynamicSize(){
-    if (document.getElementById('dynsize').checked) 
+  if (document.getElementById('dynsize').checked) 
   {
-      svg.selectAll(".node").attr("r",12);
-  }else{
       svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
+      document.getElementById("maxSize").style.backgroundColor = "white";
+      document.getElementById("maxSize").disabled = false;
+  }
+  else{
+      svg.selectAll(".node").attr("r",12);
+      document.getElementById("maxSize").style.backgroundColor = "#efeff5";
+      document.getElementById("maxSize").disabled = true;
+      document.getElementById("maxSize").value = "0";
   }
 }
 
@@ -264,17 +271,20 @@ function remote() {
   document.getElementById("url").style.visibility="visible";
   document.getElementById("local").style.visibility="hidden";
 }
-//https://people.rit.edu/uxc8532/
+
 function goToGraph() {
-    var radios = document.getElementsByName('files');
-document.getElementById("modal").style.display = "none";
-for (var i = 0, length = radios.length; i < length; i++) {
-    if (radios[i].checked) {
-        if(radios[i].value=="remote"){
-            loadGraph(document.getElementById("fname").value);
-        }
-        // only one radio can be logically checked, don't check the rest
-        break;
-    }
-}
+  document.getElementById("settings").style.visibility = "visible";
+  document.getElementById("menuRight").style.pointerEvents = "auto";
+  document.getElementById("levels").style.pointerEvents = "auto";
+  var radios = document.getElementsByName('files');
+  document.getElementById("modal").style.display = "none";
+  for (var i = 0, length = radios.length; i < length; i++) {
+      if (radios[i].checked) {
+          if(radios[i].value=="remote"){
+              loadGraph(document.getElementById("fname").value);
+          }
+          // only one radio can be logically checked, don't check the rest
+          break;
+      }
+  }
 }

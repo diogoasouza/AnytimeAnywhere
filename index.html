@@ -7,21 +7,19 @@
 </head>
 <body>
 
- <!-- Modal content -->
   <div class="modal-content" id="modal">
-    <!--<span class="close">x</span>-->
     <p>Select from where take the files...</p>
     	
 
 			<input type="radio" name="files" value="local" onclick="local();" 
-			id="files" checked>
+			id="localrdo" checked>
 				<label for="localrdo">Local</label>
 				<br/>
 
 
 
 		  	<input type="radio" name="files" value="remote" 
-		  	id="files" onclick="remote();"> 
+		  	id="remoterdo" onclick="remote();"> 
 		  		<label for="remoterdo">Remote</label><br>
 
 		  	<div id="local">
@@ -46,7 +44,7 @@
 				<li class="active" id="l0" onclick="changeLevel(0);"><a href="#">Level 0</a></li>
 			</ul>
 
-			<ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav navbar-right" id="menuRight">
 				<li class="active"><a href="index.html">Graph</a></li>
 				<li><a href="results/index.html">Graph Results</a></li>
 			</ul>
@@ -69,10 +67,16 @@
 				<option value="4.5">x3</option>
                 <option value="6">x4</option>
 			</select>
-        No dynamic sizes:<input type="checkbox" id="dynsize" value="true" onclick="dynamicSize();"> 
-        Refresh timer: 
-        <input type="number"  id="timer"/>
-        <input type="button" onclick="createInterval()" value="OK">
+        Dynamic sizes 
+        	<input type="checkbox" id="dynsize" value="true" onclick="dynamicSize();" checked>
+
+        Max size of nodes 
+        	<input type="number" min="0" id="maxSize">
+
+        Refresh timer 
+        	<input type="number" min="0" id="timer"/>
+        	<input type="button" onclick="createInterval()" value="OK" class="btn btn-default">
+
 		<img src="img/logo.png">
 	</div>
 	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>

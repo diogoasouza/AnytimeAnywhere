@@ -1,102 +1,58 @@
 [
 {
-	"Letter": 16,
-	"shortestpath": 20	
+	"Letter": 3,
+	"shortestpath": 4	
 },
 {
 	"Letter" : 5,
 	"shortestpath": 12
 },
 {
-	"Letter" : 13,
-	"shortestpath": 47
-},
-{
-	"Letter" : 2,
-	"shortestpath": 34
-},
-{
 	"Letter" : 9,
-	"shortestpath" : 54
-},
-{
-	"Letter" : 23,
-	"shortestpath" : 21
-},
-{
-	"Letter" : 2,
-	"shortestpath" : 57
+	"shortestpath": 16
 },
 {
 	"Letter" : 22,
-	"shortestpath" : 31
+	"shortestpath": 25
 },
 {
-	"Letter" : 6,
-	"shortestpath" : 17
+	"Letter" : 12,
+	"shortestpath" : 21
 },
 {
-	"Letter" : 2,
-	"shortestpath" : 5
+	"Letter" : 23,
+	"shortestpath" : 39
 },
 {
-	"Letter" : 17,
-	"shortestpath" : 23
+	"Letter" : 24,
+	"shortestpath" : 41
+},
+{
+	"Letter" : 27,
+	"shortestpath" : 44
+},
+{
+	"Letter" : 29,
+	"shortestpath" : 47
+},
+{
+	"Letter" : 31,
+	"shortestpath" : 50
+},
+{
+	"Letter" : 33,
+	"shortestpath" : 52
+},
+{
+	"Letter" : 34,
+	"shortestpath" : 48
+},
+{
+	"Letter" : 49,
+	"shortestpath" : 50
 },
 {
 	"Letter" : 29,
 	"shortestpath" : 39
-},
-{
-	"Letter" : 17,
-	"shortestpath" : 29
-},
-{
-	"Letter" : 12,
-	"shortestpath" : 33
-},
-{
-	"Letter" : 8,
-	"shortestpath" : 18
-},
-{
-	"Letter" : 27,
-	"shortestpath" : 35
-},
-{
-	"Letter" : 11,
-	"shortestpath" : 11
-},
-{
-	"Letter" : 39,
-	"shortestpath" : 45
-},
-{
-	"Letter" : 31,
-	"shortestpath" : 43
-},
-{
-	"Letter" : 11,
-	"shortestpath" : 28
-},
-{
-	"Letter" : 17,
-	"shortestpath" : 26
-},
-{
-	"Letter" : 21,
-	"shortestpath" : 30
-},
-{
-	"Letter" : 3,
-	"shortestpath" : 5
-},
-{
-	"Letter" : 3,
-	"shortestpath" : 4
-},
-{
-	"Letter" : 1,
-	"shortestpath" : 2
 }
 ]
