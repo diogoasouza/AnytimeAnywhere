@@ -6,41 +6,12 @@ var index=0;
 var scale = 1;
 var aux=0;
 var timer=10;
-var path=null;
 var root_json="graph";
 var path_json ="js/json/";
 var pastJson=null;
+var pathRemote = null;
 var currentLevel = 0;
 var nNodes = 0;
-var QueryString = function () {
-  // This function is anonymous, is executed immediately and 
-  // the return value is assigned to QueryString!
-  var query_string = {};
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i=0;i<vars.length;i++) {
-    var pair = vars[i].split("=");
-        // If first entry with this name
-    if (typeof query_string[pair[0]] === "undefined") {
-      query_string[pair[0]] = decodeURIComponent(pair[1]);
-        // If second entry with this name
-    } else if (typeof query_string[pair[0]] === "string") {
-      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-      query_string[pair[0]] = arr;
-        // If third or later entry with this name
-    } else {
-      query_string[pair[0]].push(decodeURIComponent(pair[1]));
-    }
-  } 
-    console.log(query_string);
-  return query_string;
-}();
-if (QueryString.files=="remote"){
-    path = QueryString.remoteName;
-}else{
-    path = QueryString.localName;
-}
-console.log(path);
 var force = force = d3.layout.force()
     .size([width, height])
     .charge(-300)
@@ -72,7 +43,7 @@ var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
 var levels = {level0: name};
 svg.call(tip);
-function loadGraph(){
+function loadGraph(path){
     link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
    	current_path = "";
@@ -80,10 +51,15 @@ function loadGraph(){
    	{
 	   	for (var i = 1; i <= currentLevel; i++) {
 	   		current_path += levels[ ( i ) ] + "/";
-	   		console.log("current_path: " + current_path);
 	   	}
 	}
-  //https://people.rit.edu/uxc8532/JSon/graph.json
+    pathRemote = path;
+    console.log(path);
+    console.log(path_json);
+    console.log(current_path);
+    console.log(root_json);
+    console.log(path + path_json + current_path + root_json + ".json");
+  //https://people.rit.edu/uxc8532/
 	d3.json(path + path_json + current_path + root_json + ".json", function(error, graph) {
 		if (error) throw error;
 	       if(pastJson!= JSON.stringify(graph)){
@@ -125,7 +101,6 @@ function loadGraph(){
 }, 10);
     
 }
-loadGraph();
 
 var update=setInterval(updateData, timer*1000);
 function load(){
@@ -148,15 +123,12 @@ function tick() {
 
 
 function dblclick(){
-    console.log(this.numberOfNodes);
     load();
     // increment to know actual level
     currentLevel++;
     name =  d3.select(this).attr( "id" );
     levels[ ( currentLevel ) ] = name;
-    console.log(levels);
     changeLevel(currentLevel);
-    console.log("currentLevel: " + currentLevel);
 }
 
 
@@ -217,14 +189,14 @@ function createInterval(){
     
 }
 function updateData(){
-    loadGraph();
+    loadGraph(pathRemote);
 }
 function changeLevel(n) {
     currentLevel = n;
     enableLevel(currentLevel);
     name = levels[ ( currentLevel ) ];
     svg.selectAll("*").remove();
-    loadGraph();
+    loadGraph(pathRemote);
     createInterval();
     // active clicked level
     document.getElementById( 'l' + currentLevel ).setAttribute( 'class', 'active' );
@@ -255,7 +227,7 @@ function redraw() {
 function abc(){
     svg.selectAll(".node").attr("a", function(d){
         var node_over_path = "node" + d.index + "/";
-        d3.json(path + path_json + current_path + node_over_path + root_json + ".json", function(error, graph) {           
+        d3.json(pathRemote+path_json + current_path + node_over_path + root_json + ".json", function(error, graph) {           
         if (error) {
             nNodes = 0;
             svg.select("#node"+d.index).attr("originalSize", 12);
@@ -263,9 +235,7 @@ function abc(){
         }
            
         else {
-            console.log("entrou");
             nNodes = graph.nodes.length;
-            console.log(svg.select("#node"+d.index));
             svg.select("#node"+d.index).attr("numberOfNodes", nNodes);
             
                 svg.select("#node"+d.index).attr("r", nNodes+12);
@@ -277,11 +247,34 @@ function abc(){
 }
 
 function dynamicSize(){
-    console.log(document.getElementById('dynsize').value);
     if (document.getElementById('dynsize').checked) 
   {
       svg.selectAll(".node").attr("r",12);
-  }else{console.log("oi");
+  }else{
       svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
   }
+}
+
+function local() {
+  document.getElementById("url").style.visibility="hidden";
+  document.getElementById("local").style.visibility="visible";
+}
+
+function remote() {
+  document.getElementById("url").style.visibility="visible";
+  document.getElementById("local").style.visibility="hidden";
+}
+//https://people.rit.edu/uxc8532/
+function goToGraph() {
+    var radios = document.getElementsByName('files');
+document.getElementById("modal").style.display = "none";
+for (var i = 0, length = radios.length; i < length; i++) {
+    if (radios[i].checked) {
+        if(radios[i].value=="remote"){
+            loadGraph(document.getElementById("fname").value);
+        }
+        // only one radio can be logically checked, don't check the rest
+        break;
+    }
+}
 }
