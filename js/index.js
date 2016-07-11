@@ -54,10 +54,6 @@ function loadGraph(path){
 	   	}
 	}
     pathRemote = path;
-    console.log(path);
-    console.log(path_json);
-    console.log(current_path);
-    console.log(root_json);
     console.log(path + path_json + current_path + root_json + ".json");
   //https://people.rit.edu/uxc8532/
 	d3.json(path + path_json + current_path + root_json + ".json", function(error, graph) {
@@ -217,7 +213,8 @@ function enableLevel(leval) {
 
 function redraw() {
     scale = d3.event.scale;
-    svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
+//    svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
+    dynamicSize();
     svg.selectAll(".node").style("stroke-width",1.5/scale+"px");
     svg.selectAll("line.link").style("stroke-width", 1.5/scale+"px");
       svg.attr("transform",
