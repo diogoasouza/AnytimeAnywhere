@@ -1,11 +1,15 @@
 timer =10;
-var array =[];
-    var sp=[];
-var shortestPaths={range1:0,range2:0,range3:0,range4:0,range5:0,range6:0,range7:0,range8:0,range9:0,range10:0};
-var linhas =0;
-var maximumShortestPath=20;
-var update=setInterval(updateData, timer*1000);
+var array=[];
+var sp =[];
+var maximumShortestPath =50;
+var shortestPaths=[];
+//var update=setInterval(updateData, timer*1000);
 var pastJson=null;
+var sizeOfAxis=10;
+
+for(var i=0;i<sizeOfAxis;i++){
+    shortestPaths[i]=0;
+}
 // set the dimensions of the canvas
 var margin = {top: 40, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
@@ -62,61 +66,59 @@ d3.csv("js/json/data.txt", function(error, data) {
     ele tem varias propriedades pra separar as ranges
     */
 function normalize(){
-    console.log(sp);
+    array=[];
+    for(var i=0;i<sizeOfAxis;i++){
+    array[i]={shortestpath:0, letter : (maximumShortestPath/10)*(i+1) };
+    }
 var max = Math.max.apply(Math, sp); // pega o maior elemento
-    console.log(max);
 var scale = d3.scale.linear().domain([0, max]).range([0, maximumShortestPath]); // cria a scale pra normalizar
 for ( var i in sp ){
     switch (true) { // ve em qual range o shortest path ta e adiciona um nela
     case scale(sp[i])<maximumShortestPath/10:
-            shortestPaths.range1++;
+            array[0].shortestpath++;
         break;
     case scale(sp[i])<(maximumShortestPath/10) *2 :
-            shortestPaths.range2++;
+            array[1].shortestpath++;
         break;
     case scale(sp[i])<(maximumShortestPath/10) *3:
-            shortestPaths.range3++;
+            array[2].shortestpath++;
         break;
     case scale(sp[i])<(maximumShortestPath/10) *4:
-            shortestPaths.range4++;
+            array[3].shortestpath++;
         break;
     case scale(sp[i])<(maximumShortestPath/10) *5:
-            shortestPaths.range5++;
+            array[4].shortestpath++;
         break;
     case scale(sp[i])<(maximumShortestPath/10) *6:
-            shortestPaths.range6++;
+            array[5].shortestpath++;
         break;
     case scale(sp[i])<(maximumShortestPath/10) *7:
-            shortestPaths.range7++;
+            array[6].shortestpath++;
         break;
     case scale(sp[i])<(maximumShortestPath/10) *8:
-            shortestPaths.range8++;
+            array[7].shortestpath++;
         break;
     case scale(sp[i])<(maximumShortestPath/10) *9:
-            shortestPaths.range9++;
+            array[8].shortestpath++;
         break;
     case scale(sp[i])<=(maximumShortestPath/10) *10:
-            shortestPaths.range10++;
+            array[9].shortestpath++;
         break;
 }
-    
-}console.log(shortestPaths);
+}   
 }
 
-
 // load the data
-
 function loadData(){
+//eu sei que a metrica do grafico nao ta sendo number of nodes, nao consegui pensar numa forma de fazer ser aquilo
     d3.json("js/json/data.json", function(error, data) {
+
         if(pastJson!= JSON.stringify(data)){
-        pastJson=JSON.stringify(data);
-//        data.forEach(function(d) {
-//        d.Letter = d.Letter;
-//        d.shortestpath = +d.shortestpath;
-//    });
+console.log(array);
+            console.log(data);
   // scale the range of the data
-  x.domain(data.map(function(d) { return d.Letter; }));
-  y.domain([0, d3.max(data, function(d) { return d.shortestpath; })]);
+  x.domain(array.map(function(d) { return d.letter; }));
+  y.domain([0, d3.max(array, function(d) { return d.shortestpath; })]);
 
   // add axis
   svg.append("g")
@@ -131,7 +133,6 @@ function loadData(){
       .style("text-anchor", "end")
       .text("Shortest Path");
 
-
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
@@ -145,10 +146,10 @@ function loadData(){
 
   // Add bar chart
   svg.selectAll("bar")
-      .data(data)
+      .data(array)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.Letter); })
+      .attr("x", function(d) {return x(d.letter); })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.shortestpath); })
       .attr("height", function(d) { return height - y(d.shortestpath); })
