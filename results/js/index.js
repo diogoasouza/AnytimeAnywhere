@@ -42,9 +42,15 @@ svg.call(tip);
 
 // load the data
 function loadData(){
-    
-    
-    d3.json("js/json/data.json", function(error, data) {
+
+    d3.csv("js/json/data.txt", function(error, data) {
+      var arrayGraphRes = [];
+      console.log(data[1]);
+      for (var i = 1; i < data.length; i++) {
+        arrayGraphRes[i] = data[i].GraphResults.split(" ");;
+        //console.log("String: " + str);
+      };
+
         if(pastJson!= JSON.stringify(data)){
         pastJson=JSON.stringify(data);
         data.forEach(function(d) {
