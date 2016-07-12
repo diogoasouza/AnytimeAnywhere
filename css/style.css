@@ -3,11 +3,12 @@ body {
 	/*background-color: rgba(0,0,0,0.4);*/ /* Black w/ opacity */
 }
 
-
-#url {
-	visibility: hidden;
-
+.ie {
+  text-align: left;
+  margin-left: 10px;
+  color: #787878;
 }
+
 
 .inptFile {
 	margin-left:30%;
@@ -19,7 +20,7 @@ body {
     padding: 20px;
     border: 1px solid #888;
     position:fixed;
-    top: 50%;
+    top: 55%;
     left: 50%;
     width:30em;
     height:18em;

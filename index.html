@@ -9,29 +9,19 @@
 
   <div class="modal-content" id="modal">
     <p>Select from where take the files...</p>
-    	
+    
+    <br/>
 
-			<input type="radio" name="files" value="local" onclick="local();" 
-			id="localrdo" checked>
-				<label for="localrdo">Local</label>
-				<br/>
+     <p class="ie">Remote files example: https://people.rit.edu/uxc8532/</p>
+     <p class="ie">Local files example: /Users/iit/Desktop/</p>
+     
+     <br/>
+
+	URL/Path Way  <input type="text" id="fname"><br>
 
 
-
-		  	<input type="radio" name="files" value="remote" 
-		  	id="remoterdo" onclick="remote();"> 
-		  		<label for="remoterdo">Remote</label><br>
-
-		  	<div id="local">
-				<input class="inptFile" type="file" webkitdirectory directory multiple/>
-			</div>
-
-		  	<div id="url">
-				URL  <input type="text" id="fname"><br>
-			</div>
-
-			  	<br/>
-		<input type="submit" value="Go to graph" class="btn btn-default" onclick="goToGraph()">
+		<br/>
+		<input type="submit" value="Go to the graph" class="btn btn-default" onclick="goToGraph()">
 	
 </div>
 	<nav class="navbar navbar-default navbar-fixed-top">

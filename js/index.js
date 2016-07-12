@@ -258,7 +258,7 @@ function dynamicSize(){
       document.getElementById("maxSize").value = "0";
   }
 }
-
+/*
 function local() {
   document.getElementById("url").style.visibility="hidden";
   document.getElementById("local").style.visibility="visible";
@@ -268,20 +268,14 @@ function remote() {
   document.getElementById("url").style.visibility="visible";
   document.getElementById("local").style.visibility="hidden";
 }
-
+*/
 function goToGraph() {
   document.getElementById("settings").style.visibility = "visible";
   document.getElementById("menuRight").style.pointerEvents = "auto";
   document.getElementById("levels").style.pointerEvents = "auto";
   var radios = document.getElementsByName('files');
   document.getElementById("modal").style.display = "none";
-  for (var i = 0, length = radios.length; i < length; i++) {
-      if (radios[i].checked) {
-          if(radios[i].value=="remote"){
+
               loadGraph(document.getElementById("fname").value);
-          }
-          // only one radio can be logically checked, don't check the rest
-          break;
-      }
-  }
+
 }

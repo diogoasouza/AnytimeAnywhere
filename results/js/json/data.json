@@ -53,6 +53,21 @@
 },
 {
 	"Letter" : "65-70",
-	"shortestpath" : 55
+	"shortestpath" : 550
+}
+,
+{
+	"Letter" : "65-70",
+	"shortestpath" : 550
+}
+,
+{
+	"Letter" : "65-70",
+	"shortestpath" : 550
+}
+,
+{
+	"Letter" : "65-70",
+	"shortestpath" : 650
 }
 ]
