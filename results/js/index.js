@@ -1,9 +1,9 @@
 timer =10;
 var array=[];
 var sp =[];
-var maximumShortestPath =20;
+var maximumShortestPath =20;  // default
 var shortestPaths=[];
-//var update=setInterval(updateData, timer*1000);
+var update=setInterval(updateData, timer*1000);
 var pastJson=null;
 var sizeOfAxis=10;
 
@@ -11,7 +11,7 @@ for(var i=0;i<sizeOfAxis;i++){
     shortestPaths[i]=0;
 }
 // set the dimensions of the canvas
-var margin = {top: 40, right: 20, bottom: 30, left: 40},
+var margin = {top: 40, right: 20, bottom: 60, left: 70},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -46,6 +46,8 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", 
           "translate(" + margin.left + "," + margin.top + ")");
+
+document.getElementById("settings").style.visibility = "visible";
 
 svg.call(tip);
 
@@ -110,6 +112,11 @@ for ( var i in sp ){
 
 // load the data
 function loadData(){
+	console.log("Max Shortest Path: " + maximumShortestPath);
+  
+  // adding the values that are defalut in the text field
+	document.getElementById('maxShortP').value = maximumShortestPath;
+  document.getElementById('timer').value = timer;
 //eu sei que a metrica do grafico nao ta sendo number of nodes, nao consegui pensar numa forma de fazer ser aquilo
     d3.json("js/json/data.json", function(error, data) {
 
@@ -127,18 +134,19 @@ function loadData(){
       .call(xAxis)
 
       .append("text")
-      .attr("x", 900)
-      .attr("y", 30)
+      .attr("x", 140)
+      .attr("y", 40)
       .attr("dx", ".71em")
       .style("text-anchor", "end")
-      .text("Shortest Path");
+      .text("Shortest Path Distance");
 
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
       .append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 6)
+      .attr("y", -50)
+      .attr("x", -290)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text("Number of Nodes");
@@ -151,6 +159,7 @@ function loadData(){
       .attr("class", "bar")
       .attr("x", function(d) {return x(d.letter); })
       .attr("width", x.rangeBand())
+      //.attr("x", 20)
       .attr("y", function(d) { return y(d.shortestpath); })
       .attr("height", function(d) { return height - y(d.shortestpath); })
       .on('mouseover', tip.show)
@@ -161,10 +170,31 @@ function loadData(){
     
 }
 loadData();
+/*
 function createInterval(){
-    clearInterval(update);
-    update=setInterval(updateData, timer*1000);  
+    //clearInterval(update);
+    setInterval(updateData, 10000);  
+}*/
+
+function createInterval(){
+    if (document.getElementById("timer").value!=""){
+        clearInterval(update);
+       timer=document.getElementById("timer").value;
+    update=setInterval(updateData, timer*1000); 
+    }
+    
 }
+
 function updateData(){
     loadData();
+}
+
+createInterval()
+
+function maxShortestPath() {
+	if (document.getElementById("maxShortP").value!=""){
+       maximumShortestPath=document.getElementById("maxShortP").value;
+       //console.log("Max Shortest Path: " + maximumShortestPath);
+       updateData();
+    }
 }

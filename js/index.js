@@ -44,6 +44,9 @@ var link = svg.selectAll(".link"),
 var levels = {level0: name};
 svg.call(tip);
 function loadGraph(path){
+     // adding the values that are defalut in the text field
+   //document.getElementById('maxShortP').value = maximumShortestPath;
+    document.getElementById('timer').value = timer;
     link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
    	current_path = "";
@@ -247,6 +250,7 @@ function abc(){
 function dynamicSize(){
   if (document.getElementById('dynsize').checked) 
   {
+      console.log("Scale: " + scale);
       svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
       document.getElementById("maxSize").style.backgroundColor = "white";
       document.getElementById("maxSize").disabled = false;
@@ -258,17 +262,7 @@ function dynamicSize(){
       document.getElementById("maxSize").value = "0";
   }
 }
-/*
-function local() {
-  document.getElementById("url").style.visibility="hidden";
-  document.getElementById("local").style.visibility="visible";
-}
 
-function remote() {
-  document.getElementById("url").style.visibility="visible";
-  document.getElementById("local").style.visibility="hidden";
-}
-*/
 function goToGraph() {
   document.getElementById("settings").style.visibility = "visible";
   document.getElementById("menuRight").style.pointerEvents = "auto";
@@ -276,6 +270,10 @@ function goToGraph() {
   var radios = document.getElementsByName('files');
   document.getElementById("modal").style.display = "none";
 
-              loadGraph(document.getElementById("fname").value);
+  loadGraph(document.getElementById("fname").value);
+}
 
+function maxSizeNodes() {
+  //document.getElementById("maxSize").value;
+  //console.log("Scale inside maxSizeNodes: ");
 }

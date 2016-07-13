@@ -12,8 +12,8 @@
     
     <br/>
 
-     <p class="ie">Remote files example: https://people.rit.edu/uxc8532/</p>
-     <p class="ie">Local files example: /Users/iit/Desktop/</p>
+     <p class="ie">Remote files example: people.rit.edu/uxc8532/</p>
+     <p class="ie">Local files example: localhost/AnytimeAnywhere/</p>
      
      <br/>
 
@@ -61,11 +61,10 @@
         	<input type="checkbox" id="dynsize" value="true" onclick="dynamicSize();" checked>
 
         Max size of nodes 
-        	<input type="number" min="0" id="maxSize">
+        	<input type="number" min="0" id="maxSize" onchange="maxSizeNodes()">
 
-        Refresh timer 
-        	<input type="number" min="0" id="timer"/>
-        	<input type="button" onclick="createInterval()" value="OK" class="btn btn-default">
+        Refresh timer (secs)
+        	<input type="number" min="0" id="timer" onchange="createInterval()"/>
 
 		<img src="img/logo.png">
 	</div>

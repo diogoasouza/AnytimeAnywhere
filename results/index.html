@@ -20,6 +20,18 @@
 
 		</div>
 	</nav>
+
+	<div id="settings">
+
+        <span id="MaxShortestPath">Maximum Shortest Path </span>
+        	<input type="number" min="0" id="maxShortP" onchange="maxShortestPath()" />
+        	
+        Refresh timer (secs)
+        	<input type="number" min="0" id="timer" onchange="createInterval()"/>
+
+		<img src="../img/logo.png">
+	</div>
+
 	<div class="graphic-bar">
 		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
