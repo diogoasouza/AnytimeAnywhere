@@ -6,7 +6,7 @@ var shortestPaths=[];
 var update=setInterval(updateData, timer*1000);
 var pastJson=null;
 var sizeOfAxis=10;
-
+var pastData=null;
 for(var i=0;i<sizeOfAxis;i++){
     shortestPaths[i]=0;
 }
@@ -54,10 +54,26 @@ svg.call(tip);
 /* Essa funcao eh a que normaliza os valores e coloca num objeto chamado shortestPaths
     ele tem varias propriedades pra separar as ranges
     */
+
+function abreviation(number){
+    var range=null;
+    switch(number){
+                case (number)>1000000000:
+                    range=""+Math.round(number/1000000000)+"B";
+                    break;
+                case ((maximumShortestPath/10)*(i))>1000000:
+                    range=""+Math.round(number/1000000)+"M";
+                    break;
+                case ((maximumShortestPath/10)*(i))>1000:
+                    range=""+Math.round(number/1000)+"K";
+                    break;   
+            }
+    return range;
+}
 function normalize(){
     array=[];
     for(var i=0;i<sizeOfAxis;i++){
-    array[i]={shortestpath:0, letter : " " + ((maximumShortestPath/10)*(i)) +" - "+ ((maximumShortestPath/10)*(i+1)) + "" };
+    array[i]={shortestpath:0, letter : " " +Math.round((maximumShortestPath/10)*(i)) +" - "+ Math.round((maximumShortestPath/10)*(i+1)) + "" };
     }
 var max = Math.max.apply(Math, sp); // pega o maior elemento
 var scale = d3.scale.linear().domain([0, max]).range([0, maximumShortestPath]); // cria a scale pra normalizar
@@ -102,10 +118,15 @@ function loadData(){
 	console.log("Max Shortest Path: " + maximumShortestPath);
   
   // adding the values that are defalut in the text field
-	document.getElementById('maxShortP').value = maximumShortestPath;
+  document.getElementById('maxShortP').value = maximumShortestPath;
   document.getElementById('timer').value = timer;
 //eu sei que a metrica do grafico nao ta sendo number of nodes, nao consegui pensar numa forma de fazer ser aquilo
     d3.csv("js/json/data.txt", function(error, data) {
+        if (pastData!=data.toString()){
+            svg.selectAll("*").remove();
+            console.log(pastData);
+            console.log(data);
+            pastData=data.toString();
             linhas = data.length-1; // numero de linhas
     data.splice(0,1); // tira o primeiro elemento do array, o inutil
     for(var i=0;i<data.length;i++){ // separa a linha em varios arrays diferentes, ai vira um array de array
@@ -119,7 +140,6 @@ function loadData(){
     normalize();
   // scale the range of the data
   x.domain(array.map(function(d) { return d.letter; }));
-        console.log(array);
   y.domain([0, d3.max(array, function(d) { return Math.round(d.shortestpath / 10) * 10; })]);
 
   // add axis
@@ -159,7 +179,7 @@ function loadData(){
       .attr("height", function(d) { return height - y(d.shortestpath); })
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
-        
+        }
 });    
     
     
@@ -181,7 +201,6 @@ function createInterval(){
 }
 
 function updateData(){
-    svg.selectAll("*").remove();
     loadData();
 }
 
@@ -191,6 +210,7 @@ function maxShortestPath() {
 	if (document.getElementById("maxShortP").value!=""){
        maximumShortestPath=document.getElementById("maxShortP").value;
        //console.log("Max Shortest Path: " + maximumShortestPath);
-       updateData();
+        pastData=null;
+       loadData();
     }
 }
