@@ -1,7 +1,7 @@
 timer =10;
 var array=[];
 var sp =[];
-var maximumShortestPath =50;
+var maximumShortestPath =20;
 var shortestPaths=[];
 //var update=setInterval(updateData, timer*1000);
 var pastJson=null;
@@ -68,7 +68,7 @@ d3.csv("js/json/data.txt", function(error, data) {
 function normalize(){
     array=[];
     for(var i=0;i<sizeOfAxis;i++){
-    array[i]={shortestpath:0, letter : (maximumShortestPath/10)*(i+1) };
+    array[i]={shortestpath:0, letter : " " + ((maximumShortestPath/10)*(i)) +" - "+ ((maximumShortestPath/10)*(i+1)) + "" };
     }
 var max = Math.max.apply(Math, sp); // pega o maior elemento
 var scale = d3.scale.linear().domain([0, max]).range([0, maximumShortestPath]); // cria a scale pra normalizar
@@ -114,11 +114,11 @@ function loadData(){
     d3.json("js/json/data.json", function(error, data) {
 
         if(pastJson!= JSON.stringify(data)){
-console.log(array);
+            console.log(array);
             console.log(data);
   // scale the range of the data
   x.domain(array.map(function(d) { return d.letter; }));
-  y.domain([0, d3.max(array, function(d) { return d.shortestpath; })]);
+  y.domain([0, d3.max(array, function(d) { return Math.round(d.shortestpath / 10) * 10; })]);
 
   // add axis
   svg.append("g")
