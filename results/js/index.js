@@ -51,19 +51,6 @@ document.getElementById("settings").style.visibility = "visible";
 
 svg.call(tip);
 
-d3.csv("js/json/data.txt", function(error, data) {
-    linhas = data.length-1; // numero de linhas
-    data.splice(0,1); // tira o primeiro elemento do array, o inutil
-    for(var i=0;i<data.length;i++){ // separa a linha em varios arrays diferentes, ai vira um array de array
-        array[i]=data[i].line.split(" ");
-    }
-    for(var j=0;j<array.length;j++){ // percorre o array de array pegando todos shortest paths e bota no array SP
-     for(i=0;i<array[j].length;i++){
-        sp.push(array[j][i]);
-    }   
-    }
-    normalize();
-})
 /* Essa funcao eh a que normaliza os valores e coloca num objeto chamado shortestPaths
     ele tem varias propriedades pra separar as ranges
     */
@@ -118,11 +105,18 @@ function loadData(){
 	document.getElementById('maxShortP').value = maximumShortestPath;
   document.getElementById('timer').value = timer;
 //eu sei que a metrica do grafico nao ta sendo number of nodes, nao consegui pensar numa forma de fazer ser aquilo
-    d3.json("js/json/data.json", function(error, data) {
-
-        if(pastJson!= JSON.stringify(data)){
-            console.log(array);
-            console.log(data);
+    d3.csv("js/json/data.txt", function(error, data) {
+            linhas = data.length-1; // numero de linhas
+    data.splice(0,1); // tira o primeiro elemento do array, o inutil
+    for(var i=0;i<data.length;i++){ // separa a linha em varios arrays diferentes, ai vira um array de array
+        array[i]=data[i].line.split(" ");
+    }
+    for(var j=0;j<array.length;j++){ // percorre o array de array pegando todos shortest paths e bota no array SP
+     for(i=0;i<array[j].length;i++){
+        sp.push(array[j][i]);
+    }   
+    }
+    normalize();
   // scale the range of the data
   x.domain(array.map(function(d) { return d.letter; }));
   y.domain([0, d3.max(array, function(d) { return Math.round(d.shortestpath / 10) * 10; })]);
@@ -164,7 +158,7 @@ function loadData(){
       .attr("height", function(d) { return height - y(d.shortestpath); })
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
-        }
+        
 });    
     
     
