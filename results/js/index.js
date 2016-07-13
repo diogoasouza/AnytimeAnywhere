@@ -94,7 +94,7 @@ for ( var i in sp ){
             array[9].shortestpath++;
         break;
 }
-}   
+}  sp=[];
 }
 
 // load the data
@@ -119,6 +119,7 @@ function loadData(){
     normalize();
   // scale the range of the data
   x.domain(array.map(function(d) { return d.letter; }));
+        console.log(array);
   y.domain([0, d3.max(array, function(d) { return Math.round(d.shortestpath / 10) * 10; })]);
 
   // add axis
@@ -180,6 +181,7 @@ function createInterval(){
 }
 
 function updateData(){
+    svg.selectAll("*").remove();
     loadData();
 }
 
