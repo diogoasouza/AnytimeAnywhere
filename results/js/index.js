@@ -57,23 +57,25 @@ svg.call(tip);
 
 function abreviation(number){
     var range=null;
-    switch(number){
+    switch(true){
                 case (number)>1000000000:
                     range=""+Math.round(number/1000000000)+"B";
                     break;
-                case ((maximumShortestPath/10)*(i))>1000000:
+                case (number)>1000000:
                     range=""+Math.round(number/1000000)+"M";
                     break;
-                case ((maximumShortestPath/10)*(i))>1000:
+                case (number)>1000:
                     range=""+Math.round(number/1000)+"K";
-                    break;   
+                    break; 
+                default:
+                     range = "" + Math.round(number);
             }
     return range;
 }
 function normalize(){
     array=[];
     for(var i=0;i<sizeOfAxis;i++){
-    array[i]={shortestpath:0, letter : " " +Math.round((maximumShortestPath/10)*(i)) +" - "+ Math.round((maximumShortestPath/10)*(i+1)) + "" };
+    array[i]={shortestpath:0, letter : " " +abreviation((maximumShortestPath/10)*(i)) +" - "+ abreviation((maximumShortestPath/10)*(i+1)) + "" };
     }
 var max = Math.max.apply(Math, sp); // pega o maior elemento
 var scale = d3.scale.linear().domain([0, max]).range([0, maximumShortestPath]); // cria a scale pra normalizar
