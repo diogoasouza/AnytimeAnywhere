@@ -58,14 +58,14 @@ svg.call(tip);
 function abreviation(number){
     var range=null;
     switch(true){
-                case (number)>1000000000:
-                    range=""+Math.round(number/1000000000)+"B";
+                case (number)>=1000000000:
+                    range=""+(number/1000000000).toFixed(1)+"B";
                     break;
-                case (number)>1000000:
-                    range=""+Math.round(number/1000000)+"M";
+                case (number)>=1000000:
+                    range=""+(number/1000000).toFixed(1)+"M";
                     break;
-                case (number)>1000:
-                    range=""+Math.round(number/1000)+"K";
+                case (number)>=1000:
+                    range=""+(number/1000).toFixed(1)+"K";
                     break; 
                 default:
                      range = "" + Math.round(number);
@@ -81,7 +81,7 @@ var max = Math.max.apply(Math, sp); // pega o maior elemento
 var scale = d3.scale.linear().domain([0, max]).range([0, maximumShortestPath]); // cria a scale pra normalizar
 for ( var i in sp ){
     switch (true) { // ve em qual range o shortest path ta e adiciona um nela
-    case scale(sp[i])<maximumShortestPath/10:
+    case scale(sp[i])<Math.round(maximumShortestPath/10):
             array[0].shortestpath++;
         break;
     case scale(sp[i])<(maximumShortestPath/10) *2 :
