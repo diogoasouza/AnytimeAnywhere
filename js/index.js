@@ -10,8 +10,10 @@ var root_json="graph";
 var path_json ="js/json/";
 var pastJson=null;
 var pathRemote = null;
+var lineWidth=1.5;
 var currentLevel = 0;
 var nNodes = 0;
+var maximumNodeSize=50;
 var force = force = d3.layout.force()
     .size([width, height])
     .charge(-300)
@@ -130,7 +132,7 @@ function dblclick(){
     changeLevel(currentLevel);
 }
 
-
+/*
 function linkClick(){
     if(currentLink==null) currentLink=d3.select(this);
     if(d3.select(this).attr("selected")==1){
@@ -148,15 +150,8 @@ function linkClick(){
         }   
     }
     currentLink = d3.select(this);
-    /*
-    if(currentLink.attr("selected")==1){
-        document.getElementById("settings").style.visibility = "visible";
-    }else{
-        document.getElementById("settings").style.visibility = "hidden";
-    }
-    */
-    size= currentLink.style("stroke-width");
-    switch(size){
+    lineWidth= currentLink.style("stroke-width");
+    switch(lineWidth){
         case "1.5px":  
             document.getElementById("size").selectedIndex = 0;
         break;
@@ -170,14 +165,15 @@ function linkClick(){
             document.getElementById("size").selectedIndex = 3;
         break;
     }
-}
+}*/
 
 function changeColor() {
     node = node.style("fill", (document.getElementById("color").value));
 }
 
 function changeSize() {
-    link = link.style("stroke-width", document.getElementById("size").value);
+    lineWidth=document.getElementById("size").value;
+    link.style("stroke-width", lineWidth/scale);
 }
 
 function createInterval(){
@@ -192,6 +188,8 @@ function updateData(){
     loadGraph(pathRemote);
 }
 function changeLevel(n) {
+    tip.hide;
+    console.log(tip);
     currentLevel = n;
     enableLevel(currentLevel);
     name = levels[ ( currentLevel ) ];
@@ -201,7 +199,6 @@ function changeLevel(n) {
     // active clicked level
     document.getElementById( 'l' + currentLevel ).setAttribute( 'class', 'active' );
 }
-
 // function to enable navbar button for previous levals
 function enableLevel(leval) {
   document.getElementById("levels").innerHTML = " ";
@@ -216,10 +213,11 @@ function enableLevel(leval) {
 
 function redraw() {
     scale = d3.event.scale;
-//    svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
     dynamicSize();
+    console.log("line width: "+lineWidth);
+    console.log("scale: "+scale);
     svg.selectAll(".node").style("stroke-width",1.5/scale+"px");
-    svg.selectAll("line.link").style("stroke-width", 1.5/scale+"px");
+    svg.selectAll("line.link").style("stroke-width", lineWidth/scale+"px");
       svg.attr("transform",
           "translate(" + d3.event.translate + ")"
           + " scale(" + d3.event.scale + ")");
@@ -238,13 +236,19 @@ function abc(){
         else {
             nNodes = graph.nodes.length;
             svg.select("#node"+d.index).attr("numberOfNodes", nNodes);
-            
-                svg.select("#node"+d.index).attr("r", nNodes+12);
+            if(nNodes+12<=maximumNodeSize){
+                 svg.select("#node"+d.index).attr("r", nNodes+12);
                 svg.select("#node"+d.index).attr("originalSize", nNodes+12);
+            }else{
+                 svg.select("#node"+d.index).attr("r", maximumNodeSize);
+                 svg.select("#node"+d.index).attr("originalSize", maximumNodeSize);
+            }
         
         }
     });   
     });
+
+   
 }
 
 function dynamicSize(){
@@ -252,14 +256,9 @@ function dynamicSize(){
   {
       console.log("Scale: " + scale);
       svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
-      document.getElementById("maxSize").style.backgroundColor = "white";
-      document.getElementById("maxSize").disabled = false;
   }
   else{
-      svg.selectAll(".node").attr("r",12);
-      document.getElementById("maxSize").style.backgroundColor = "#efeff5";
-      document.getElementById("maxSize").disabled = true;
-      document.getElementById("maxSize").value = "0";
+      svg.selectAll(".node").attr("r",12/scale);
   }
 }
 
@@ -272,8 +271,31 @@ function goToGraph() {
 
   loadGraph(document.getElementById("fname").value);
 }
-
+/*
 function maxSizeNodes() {
   //document.getElementById("maxSize").value;
   //console.log("Scale inside maxSizeNodes: ");
 }
+*/
+/*
+function getBiggestNode(){
+   return new Promise(function(resolve, reject) {
+        svg.selectAll(".node").attr("a", function(d){
+        var node_over_path = "node" + d.index + "/";
+        d3.json(pathRemote+path_json + current_path + node_over_path + root_json + ".json", function(error, graph) {           
+        if (error) {
+            nNodes = 0;
+        }
+        else {
+            if(graph.nodes.length>biggestNode){
+                console.log("entrou no if e o biggestNode eh: "+biggestNode+" e o graph length eh: "+ graph.nodes.length);
+                biggestNode=graph.nodes.length;
+            } 
+        }
+    });   
+    });
+   });
+        
+    
+     
+}*/
