@@ -6,6 +6,7 @@ var width = window.innerWidth,
     scale = 1,
     aux=0,
     timer=10,
+    animationTime=5000,
     root_json="graph",
     path_json ="js/json/",
     pastJson=null,
@@ -46,6 +47,7 @@ var width = window.innerWidth,
     levels = {level0: name};
 load(); 
 svg.call(tip);
+console.log(document.getElementsByTagName("g"));
 function loadGraph(path){
      // adding the values that are defalut in the text field
    //document.getElementById('maxShortP').value = maximumShortestPath;
@@ -90,17 +92,16 @@ function loadGraph(path){
     }
 
 });
-    
+    force.start();
     setTimeout(function() {
-  force.start();
-  for (var i = force.nodes().length * force.nodes().length; i > 0; --i) force.tick();
+  
+//  for (var i = force.nodes().length * force.nodes().length; i > 0; --i) force.tick();
   force.stop();
       for (i=0;i<force.nodes().length;i++) {
         force.nodes()[i].fixed = true;
         }
-
   loading.remove();
-}, 10);
+}, animationTime);
     
 }
 
@@ -183,8 +184,6 @@ function enableLevel(leval) {
 function redraw() {
     scale = d3.event.scale;
     dynamicSize();
-    console.log("line width: "+lineWidth);
-    console.log("scale: "+scale);
     svg.selectAll(".node").style("stroke-width",1.5/scale+"px");
     svg.selectAll("line.link").style("stroke-width", lineWidth/scale+"px");
       svg.attr("transform",
@@ -223,7 +222,6 @@ function abc(){
 function dynamicSize(){
   if (document.getElementById('dynsize').checked) 
   {
-      console.log("Scale: " + scale);
       svg.selectAll(".node").attr("r",function(d){return svg.select("#node"+d.index).attr("originalSize")/scale});
   }
   else{
