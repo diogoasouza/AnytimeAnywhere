@@ -52,8 +52,7 @@ function loadGraph(path){
      // adding the values that are defalut in the text field
    //document.getElementById('maxShortP').value = maximumShortestPath;
     document.getElementById('timer').value = timer;
-    link = svg.selectAll(".link"),
-    node = svg.selectAll(".node");
+    
    	current_path = "";
    	if (currentLevel != 0 )
    	{
@@ -63,11 +62,14 @@ function loadGraph(path){
 	}
     pathRemote = path;
     console.log(path + path_json + current_path + root_json + ".json");
-  //https://people.rit.edu/uxc8532/
-	d3.json(path + path_json + current_path + root_json + ".json", function(error, graph) {
+    // using math floor to avoid caching
+	d3.json((path + path_json + current_path + root_json + ".json?" + Math.floor(Math.random() * 1000)), function(error, graph) {
 		if (error) throw error;
 	       if(pastJson!= JSON.stringify(graph)){
+               console.log("different jsons");
 	           svg.selectAll("*").remove();
+               link = svg.selectAll(".link"),
+    node = svg.selectAll(".node");
 	           pastJson=JSON.stringify(graph);
 	           force
 	      .nodes(graph.nodes)
@@ -155,9 +157,11 @@ function createInterval(){
     
 }
 function updateData(){
+    console.log("Inside updateData");
     loadGraph(pathRemote);
 }
 function changeLevel(n) {
+    console.log("Inside changeLevel");
     tip.hide;
     console.log(tip);
     currentLevel = n;
@@ -230,12 +234,14 @@ function dynamicSize(){
 }
 
 function goToGraph() {
+  console.log("inside goToGraph");
   document.getElementById("settings").style.visibility = "visible";
   document.getElementById("menuRight").style.pointerEvents = "auto";
   document.getElementById("levels").style.pointerEvents = "auto";
   var radios = document.getElementsByName('files');
   document.getElementById("modal").style.display = "none";
 
+  console.log("Text field: " + document.getElementById("fname").value);
   loadGraph(document.getElementById("fname").value);
 }
 /*
