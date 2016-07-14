@@ -123,7 +123,7 @@ function loadData(){
   document.getElementById('maxShortP').value = maximumShortestPath;
   document.getElementById('timer').value = timer;
 //eu sei que a metrica do grafico nao ta sendo number of nodes, nao consegui pensar numa forma de fazer ser aquilo
-    d3.csv("js/json/data.txt", function(error, data) {
+    d3.csv(("js/json/data.txt?" + Math.floor(Math.random() * 1000)), function(error, data) {
         if (pastData!=data.toString()){
             svg.selectAll("*").remove();
             console.log(pastData);
