@@ -1,49 +1,50 @@
 var width = window.innerWidth,
     height = window.innerHeight;
-var currentNode = null;
-var currentLink = null;
-var index=0;
-var scale = 1;
-var aux=0;
-var timer=10;
-var root_json="graph";
-var path_json ="js/json/";
-var pastJson=null;
-var pathRemote = null;
-var lineWidth=1.5;
-var currentLevel = 0;
-var nNodes = 0;
-var maximumNodeSize=50;
-var force = force = d3.layout.force()
+    currentNode = null,
+    currentLink = null,
+    index=0,
+    scale = 1,
+    aux=0,
+    timer=10,
+    root_json="graph",
+    path_json ="js/json/",
+    pastJson=null,
+    pathRemote = null,
+    lineWidth=1.5,
+    currentLevel = 0,
+    nNodes = 0,
+    maximumNodeSize=50,
+    force = force = d3.layout.force()
     .size([width, height])
     .charge(-300)
     .linkDistance(40)
     .on("tick",tick);
-    
-var tip = d3.tip()
+    update=setInterval(updateData, timer*1000),
+    tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
     return "<strong>ID:</strong> <span style='color:red'>" + d.index + 
             "</span><br/>Number of Nodes:<span style='color:red'id='" + d.index +"'> " + 
             svg.select("#node"+d.index).attr("numberOfNodes")+ "</span>";
-  })
-var drag =force.drag();   
-var svg = d3.select("body").append("svg")
+  }),
+    drag =force.drag(), 
+    svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
     .call(d3.behavior.zoom().on("zoom", redraw))
     .on("dblclick.zoom", null)
-    .append('g');
-  var drag = force.stop().drag()
+    .append('g'),
+      drag = force.stop().drag()
 .on("dragstart", function(d) {
     d3.event.sourceEvent.stopPropagation();
-    });  
-var loading;
+    }),  
+    loading=null,
+
+    link = svg.selectAll(".link"),
+    node = svg.selectAll(".node"),
+    levels = {level0: name};
 load(); 
-var link = svg.selectAll(".link"),
-    node = svg.selectAll(".node");
-var levels = {level0: name};
 svg.call(tip);
 function loadGraph(path){
      // adding the values that are defalut in the text field
@@ -103,7 +104,7 @@ function loadGraph(path){
     
 }
 
-var update=setInterval(updateData, timer*1000);
+
 function load(){
     loading = svg.append("text")
     .attr("x", width / 2)
@@ -132,40 +133,8 @@ function dblclick(){
     changeLevel(currentLevel);
 }
 
-/*
-function linkClick(){
-    if(currentLink==null) currentLink=d3.select(this);
-    if(d3.select(this).attr("selected")==1){
-        d3.select(this).attr("selected",0);
-        d3.select(this).style("stroke","#000");
-    }else{
-        d3.select(this).attr("selected",1);
-        d3.select(this).style("stroke","red");
-    }
-    if(currentLink != null){
-        if(d3.select(this).attr("x1")!=currentLink.attr("x1") || d3.select(this).attr("y1")!= currentLink.attr("y1")
-        || d3.select(this).attr("x2")!=currentLink.attr("x2") || d3.select(this).attr("y2")!= currentLink.attr("y2") ){
-            currentLink.attr("selected",0);
-            currentLink.style("stroke","#000");
-        }   
-    }
-    currentLink = d3.select(this);
-    lineWidth= currentLink.style("stroke-width");
-    switch(lineWidth){
-        case "1.5px":  
-            document.getElementById("size").selectedIndex = 0;
-        break;
-        case "3px":  
-            document.getElementById("size").selectedIndex = 1;
-        break;
-        case "4.5px":  
-            document.getElementById("size").selectedIndex = 2;
-        break;
-        case "6px":  
-            document.getElementById("size").selectedIndex = 3;
-        break;
-    }
-}*/
+
+
 
 function changeColor() {
     node = node.style("fill", (document.getElementById("color").value));
@@ -298,4 +267,38 @@ function getBiggestNode(){
         
     
      
+}*/
+/*
+function linkClick(){
+    if(currentLink==null) currentLink=d3.select(this);
+    if(d3.select(this).attr("selected")==1){
+        d3.select(this).attr("selected",0);
+        d3.select(this).style("stroke","#000");
+    }else{
+        d3.select(this).attr("selected",1);
+        d3.select(this).style("stroke","red");
+    }
+    if(currentLink != null){
+        if(d3.select(this).attr("x1")!=currentLink.attr("x1") || d3.select(this).attr("y1")!= currentLink.attr("y1")
+        || d3.select(this).attr("x2")!=currentLink.attr("x2") || d3.select(this).attr("y2")!= currentLink.attr("y2") ){
+            currentLink.attr("selected",0);
+            currentLink.style("stroke","#000");
+        }   
+    }
+    currentLink = d3.select(this);
+    lineWidth= currentLink.style("stroke-width");
+    switch(lineWidth){
+        case "1.5px":  
+            document.getElementById("size").selectedIndex = 0;
+        break;
+        case "3px":  
+            document.getElementById("size").selectedIndex = 1;
+        break;
+        case "4.5px":  
+            document.getElementById("size").selectedIndex = 2;
+        break;
+        case "6px":  
+            document.getElementById("size").selectedIndex = 3;
+        break;
+    }
 }*/

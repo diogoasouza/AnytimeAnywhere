@@ -1,45 +1,43 @@
-timer =10;
-var array=[];
-var sp =[];
-var maximumShortestPath =20;  // default
-var shortestPaths=[];
-var update=setInterval(updateData, timer*1000);
-var pastJson=null;
-var sizeOfAxis=10;
-var pastData=null;
-for(var i=0;i<sizeOfAxis;i++){
-    shortestPaths[i]=0;
-}
+var timer =10,
+    array=[],
+    sp =[],
+    maximumShortestPath =20,  // default
+    shortestPaths=[],
+    update=setInterval(updateData, timer*1000),
+    pastJson=null,
+    sizeOfAxis=10,
+    pastData=null,
+
 // set the dimensions of the canvas
-var margin = {top: 40, right: 20, bottom: 60, left: 70},
+    margin = {top: 40, right: 20, bottom: 60, left: 70},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 
 // set the ranges
-var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+    x = d3.scale.ordinal().rangeRoundBands([0, width], .05),
 
-var y = d3.scale.linear().range([height, 0]);
+    y = d3.scale.linear().range([height, 0]),
 
 // define the axis
-var xAxis = d3.svg.axis()
+    xAxis = d3.svg.axis()
     .scale(x)
-    .orient("bottom");
+    .orient("bottom"),
 
-var yAxis = d3.svg.axis()
+    yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
-    .ticks(10);
+    .ticks(10),
 
-var tip = d3.tip()
+    tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
     return "<strong>Number of Nodes:</strong> <span style='color:red'>" + d.shortestpath + "</span>";
-  })
+  }),
 
 // add the SVG element
-var svg = d3.select("body").append("svg")
+    svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .attr('class', 'graphic-bar')
@@ -50,7 +48,9 @@ var svg = d3.select("body").append("svg")
 document.getElementById("settings").style.visibility = "visible";
 
 svg.call(tip);
-
+for(var i=0;i<sizeOfAxis;i++){
+    shortestPaths[i]=0;
+}
 /* Essa funcao eh a que normaliza os valores e coloca num objeto chamado shortestPaths
     ele tem varias propriedades pra separar as ranges
     */
