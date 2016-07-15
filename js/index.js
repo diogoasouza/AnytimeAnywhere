@@ -1,4 +1,4 @@
-var width = window.innerWidth,
+var width = window.innerWidth, 
     height = window.innerHeight;
     currentNode = null,
     currentLink = null,
@@ -24,6 +24,7 @@ var width = window.innerWidth,
     tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
+  // Label for mouse overs node
   .html(function(d) {
     return "<strong>ID:</strong> <span style='color:red'>" + d.index + 
             "</span><br/>Number of Nodes:<span style='color:red'id='" + d.index +"'> " + 
@@ -50,9 +51,9 @@ svg.call(tip);
 console.log(document.getElementsByTagName("g"));
 function loadGraph(path){
      // adding the values that are defalut in the text field
-   //document.getElementById('maxShortP').value = maximumShortestPath;
     document.getElementById('timer').value = timer;
     
+    // creating the pathway based in the current level
    	current_path = "";
    	if (currentLevel != 0 )
    	{
@@ -63,7 +64,7 @@ function loadGraph(path){
     pathRemote = path;
     console.log(path + path_json + current_path + root_json + ".json");
     // using math floor to avoid caching
-	d3.json((path + path_json + current_path + root_json + ".json?" + Math.floor(Math.random() * 1000)), function(error, graph) {
+	d3.json((path + path_json + current_path + root_json + ".json?" + Math.floor(Math.random() * 100000)), function(error, graph) {
 		if (error) throw error;
 	       if(pastJson!= JSON.stringify(graph)){
                console.log("different jsons");
@@ -107,7 +108,7 @@ function loadGraph(path){
     
 }
 
-
+// loading function, shows a message during the load time
 function load(){
     loading = svg.append("text")
     .attr("x", width / 2)
@@ -126,7 +127,7 @@ function tick() {
       .attr("cy", function(d) { return d.y; });
 }
 
-
+// double click in a node
 function dblclick(){
     load();
     // increment to know actual level
@@ -136,18 +137,18 @@ function dblclick(){
     changeLevel(currentLevel);
 }
 
-
-
-
+// function to change the color for the whole graph
 function changeColor() {
     node = node.style("fill", (document.getElementById("color").value));
 }
 
+// change size for the edges
 function changeSize() {
     lineWidth=document.getElementById("size").value;
     link.style("stroke-width", lineWidth/scale);
 }
 
+// creating an interval timer
 function createInterval(){
     if (document.getElementById("timer").value!=""){
         clearInterval(update);
@@ -156,10 +157,14 @@ function createInterval(){
     }
     
 }
+
+// update data calling the loadGraph function
 function updateData(){
     console.log("Inside updateData");
     loadGraph(pathRemote);
 }
+
+// function to change the level, change to active the current level in the menu bar
 function changeLevel(n) {
     console.log("Inside changeLevel");
     tip.hide;
@@ -173,6 +178,7 @@ function changeLevel(n) {
     // active clicked level
     document.getElementById( 'l' + currentLevel ).setAttribute( 'class', 'active' );
 }
+
 // function to enable navbar button for previous levals
 function enableLevel(leval) {
   document.getElementById("levels").innerHTML = " ";
@@ -185,6 +191,7 @@ function enableLevel(leval) {
                                                   ");'><a href='#'>Level " + leval + "</a></li>";
 }
 
+// redraw the graph
 function redraw() {
     scale = d3.event.scale;
     dynamicSize();
@@ -218,11 +225,10 @@ function abc(){
         
         }
     });   
-    });
-
-   
+    });   
 }
 
+// dynamic size considering how many nodes it has inside
 function dynamicSize(){
   if (document.getElementById('dynsize').checked) 
   {
@@ -233,6 +239,7 @@ function dynamicSize(){
   }
 }
 
+// go to graph button clicked, load the graph
 function goToGraph() {
   console.log("inside goToGraph");
   document.getElementById("settings").style.visibility = "visible";
@@ -244,65 +251,3 @@ function goToGraph() {
   console.log("Text field: " + document.getElementById("fname").value);
   loadGraph(document.getElementById("fname").value);
 }
-/*
-function maxSizeNodes() {
-  //document.getElementById("maxSize").value;
-  //console.log("Scale inside maxSizeNodes: ");
-}
-*/
-/*
-function getBiggestNode(){
-   return new Promise(function(resolve, reject) {
-        svg.selectAll(".node").attr("a", function(d){
-        var node_over_path = "node" + d.index + "/";
-        d3.json(pathRemote+path_json + current_path + node_over_path + root_json + ".json", function(error, graph) {           
-        if (error) {
-            nNodes = 0;
-        }
-        else {
-            if(graph.nodes.length>biggestNode){
-                console.log("entrou no if e o biggestNode eh: "+biggestNode+" e o graph length eh: "+ graph.nodes.length);
-                biggestNode=graph.nodes.length;
-            } 
-        }
-    });   
-    });
-   });
-        
-    
-     
-}*/
-/*
-function linkClick(){
-    if(currentLink==null) currentLink=d3.select(this);
-    if(d3.select(this).attr("selected")==1){
-        d3.select(this).attr("selected",0);
-        d3.select(this).style("stroke","#000");
-    }else{
-        d3.select(this).attr("selected",1);
-        d3.select(this).style("stroke","red");
-    }
-    if(currentLink != null){
-        if(d3.select(this).attr("x1")!=currentLink.attr("x1") || d3.select(this).attr("y1")!= currentLink.attr("y1")
-        || d3.select(this).attr("x2")!=currentLink.attr("x2") || d3.select(this).attr("y2")!= currentLink.attr("y2") ){
-            currentLink.attr("selected",0);
-            currentLink.style("stroke","#000");
-        }   
-    }
-    currentLink = d3.select(this);
-    lineWidth= currentLink.style("stroke-width");
-    switch(lineWidth){
-        case "1.5px":  
-            document.getElementById("size").selectedIndex = 0;
-        break;
-        case "3px":  
-            document.getElementById("size").selectedIndex = 1;
-        break;
-        case "4.5px":  
-            document.getElementById("size").selectedIndex = 2;
-        break;
-        case "6px":  
-            document.getElementById("size").selectedIndex = 3;
-        break;
-    }
-}*/

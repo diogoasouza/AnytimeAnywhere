@@ -1,10 +1,10 @@
-var timer =10,
+var timer =10, // refresh timer
     array=[],
-    sp =[],
-    maximumShortestPath =20,  // default
-    shortestPaths=[],
-    update=setInterval(updateData, timer*1000),
-    pastJson=null,
+    sp =[],  // array for shortest path
+    max =20,  // default maximum nshortest path
+    shortestPaths=[],  // array for shortest path
+    update=setInterval(updateData, timer*1000), // interval to update
+    pastJson=null, 
     sizeOfAxis=10,
     pastData=null,
 
@@ -32,6 +32,7 @@ var timer =10,
     tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
+  // label for each bar on the graphic
   .html(function(d) {
     return "<strong>Number of Nodes:</strong> <span style='color:red'>" + d.shortestpath + "</span>";
   }),
@@ -48,13 +49,17 @@ var timer =10,
 document.getElementById("settings").style.visibility = "visible";
 
 svg.call(tip);
+/* Normalize the values and add in a object called "shortestPaths"
+    It has property to separate the ranges
+*/
 for(var i=0;i<sizeOfAxis;i++){
     shortestPaths[i]=0;
 }
-/* Essa funcao eh a que normaliza os valores e coloca num objeto chamado shortestPaths
-    ele tem varias propriedades pra separar as ranges
-    */
 
+/* 
+  Function to abreviate numbers that are too big. Adding "B" for billions,
+  "M" for millions and "K" for thousands
+*/
 function abreviation(number){
     var range=null;
     switch(true){
@@ -72,43 +77,51 @@ function abreviation(number){
             }
     return range;
 }
+
+/* 
+  Functions to normalize the graphic values and using range for values
+*/
 function normalize(){
     array=[];
-    for(var i=0;i<sizeOfAxis;i++){
-    array[i]={shortestpath:0, letter : " " +abreviation((maximumShortestPath/10)*(i)) +" - "+ abreviation((maximumShortestPath/10)*(i+1)) + "" };
-    }
 var max = Math.max.apply(Math, sp); // pega o maior elemento
-var scale = d3.scale.linear().domain([0, max]).range([0, maximumShortestPath]); // cria a scale pra normalizar
+//max=max;
+    for(var i=0;i<sizeOfAxis;i++){
+    array[i]={shortestpath:0, letter : " " +abreviation((max/10)*(i)) +" - "+ abreviation((max/10)*(i+1)) + "" };
+    }
+
+// scale to normalize
+var scale = d3.scale.linear().domain([0, max]).range([0, max]);
 for ( var i in sp ){
-    switch (true) { // ve em qual range o shortest path ta e adiciona um nela
-    case scale(sp[i])<Math.round(maximumShortestPath/10):
+  // add 1 where the shortest path is
+    switch (true) { 
+    case scale(sp[i])<Math.round(max/10):
             array[0].shortestpath++;
         break;
-    case scale(sp[i])<(maximumShortestPath/10) *2 :
+    case scale(sp[i])<(max/10) *2 :
             array[1].shortestpath++;
         break;
-    case scale(sp[i])<(maximumShortestPath/10) *3:
+    case scale(sp[i])<(max/10) *3:
             array[2].shortestpath++;
         break;
-    case scale(sp[i])<(maximumShortestPath/10) *4:
+    case scale(sp[i])<(max/10) *4:
             array[3].shortestpath++;
         break;
-    case scale(sp[i])<(maximumShortestPath/10) *5:
+    case scale(sp[i])<(max/10) *5:
             array[4].shortestpath++;
         break;
-    case scale(sp[i])<(maximumShortestPath/10) *6:
+    case scale(sp[i])<(max/10) *6:
             array[5].shortestpath++;
         break;
-    case scale(sp[i])<(maximumShortestPath/10) *7:
+    case scale(sp[i])<(max/10) *7:
             array[6].shortestpath++;
         break;
-    case scale(sp[i])<(maximumShortestPath/10) *8:
+    case scale(sp[i])<(max/10) *8:
             array[7].shortestpath++;
         break;
-    case scale(sp[i])<(maximumShortestPath/10) *9:
+    case scale(sp[i])<(max/10) *9:
             array[8].shortestpath++;
         break;
-    case scale(sp[i])<=(maximumShortestPath/10) *10:
+    case scale(sp[i])<=(max/10) *10:
             array[9].shortestpath++;
         break;
 }
@@ -117,24 +130,25 @@ for ( var i in sp ){
 
 // load the data
 function loadData(){
-	console.log("Max Shortest Path: " + maximumShortestPath);
+	console.log("Max Shortest Path: " + max);
   
   // adding the values that are defalut in the text field
-  document.getElementById('maxShortP').value = maximumShortestPath;
   document.getElementById('timer').value = timer;
-//eu sei que a metrica do grafico nao ta sendo number of nodes, nao consegui pensar numa forma de fazer ser aquilo
-    d3.csv(("js/json/data.txt?" + Math.floor(Math.random() * 1000)), function(error, data) {
+    d3.csv(("js/json/data.txt?" + Math.floor(Math.random() * 100000)), function(error, data) {
         if (pastData!=data.toString()){
+          console.log(data.toString());
             svg.selectAll("*").remove();
             console.log(pastData);
             console.log(data);
             pastData=data.toString();
-            linhas = data.length-1; // numero de linhas
-    data.splice(0,1); // tira o primeiro elemento do array, o inutil
-    for(var i=0;i<data.length;i++){ // separa a linha em varios arrays diferentes, ai vira um array de array
+            linhas = data.length-1; // number of lines
+    data.splice(0,1); // eliminates the first element into array, that is line number
+    // separate the line in different arrays, using an array of arrays
+    for(var i=0;i<data.length;i++){
         array[i]=data[i].line.split(" ");
     }
-    for(var j=0;j<array.length;j++){ // percorre o array de array pegando todos shortest paths e bota no array SP
+    // go through the array getting the shortest path and add it to the "SP" array
+    for(var j=0;j<array.length;j++){
      for(i=0;i<array[j].length;i++){
         sp.push(array[j][i]);
     }   
@@ -176,7 +190,6 @@ function loadData(){
       .attr("class", "bar")
       .attr("x", function(d) {return x(d.letter); })
       .attr("width", x.rangeBand())
-      //.attr("x", 20)
       .attr("y", function(d) { return y(d.shortestpath); })
       .attr("height", function(d) { return height - y(d.shortestpath); })
       .on('mouseover', tip.show)
@@ -187,12 +200,7 @@ function loadData(){
     
 }
 loadData();
-/*
-function createInterval(){
-    //clearInterval(update);
-    setInterval(updateData, 10000);  
-}*/
-
+// Function to create the interval
 function createInterval(){
     if (document.getElementById("timer").value!=""){
         clearInterval(update);
@@ -202,17 +210,9 @@ function createInterval(){
     
 }
 
+// Function to update the data calling the loadData function
 function updateData(){
     loadData();
 }
 
-createInterval()
-
-function maxShortestPath() {
-	if (document.getElementById("maxShortP").value!=""){
-       maximumShortestPath=document.getElementById("maxShortP").value;
-       //console.log("Max Shortest Path: " + maximumShortestPath);
-        pastData=null;
-       loadData();
-    }
-}
+createInterval();
